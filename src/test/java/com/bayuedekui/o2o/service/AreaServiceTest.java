@@ -10,15 +10,15 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-
-public class AreaServiceTest extends BaseTest {
+public class AreaServiceTest extends BaseTest{
     @Autowired
     private AreaService areaService;
-
+    
     @Test
-    public void testAreaService() {
-        List<Area> areaList = areaService.getAreaList();
-        assertEquals("南苑二舍",areaList.get(0).getAreaName());
-
+    public void getAreaList(){
+        List<Area> areaList=areaService.getAreaList();
+        assertEquals("测试地址",areaList.get(0).getAreaName());
     }
+    
 }
+

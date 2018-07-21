@@ -3,6 +3,8 @@
   <component name="CompilerConfiguration">
     <excludeFromCompile>
       <file url="file://$PROJECT_DIR$/src/test/java/com/bayuedekui/o2o/service/AreaServiceTest.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/com/bayuedekui/util/ImageUtil.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/com/bayuedekui/service/impl/ShopServiceImpl.java" />
     </excludeFromCompile>
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">

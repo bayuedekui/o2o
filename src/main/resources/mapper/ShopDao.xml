@@ -19,24 +19,23 @@
     </insert>
 
     <update id="updateShop" parameterType="com.bayuedekui.entity.Shop">
-        update tb_shop
+        UPDATE tb_shop
         <set>
-            <if test="ownerId!=null">owner_id=#{ownerId}</if>
-            <if test="areaId!=null">area_id=#{areaId}</if>
-            <if test="shopCategoryId!=null">shop_category_id=#{shopCategoryId}</if>
-            <if test="parentCategoryId!=null">parent_category_id=#{parentCategoryId}</if>
-            <if test="shopName!=null">shop_name=#{shopName}</if>
-            <if test="shopDesc!=null">shop_desc=#{shopDesc}</if>
-            <if test="shopAddr!=null">shop_addr=#{shopAddr}</if>
-            <if test="phone!=null">phone=#{phone}</if>
-            <if test="shop_img!=null">shop_img=#{shopImg}</if>
-            <if test="longtitude!=null">longtitude=#{longtitude}</if>
-            <if test="latitude!=null">latitude=#{latitude}</if>
-            <if test="priority!=null">priority=#{priority}</if> 
-            <if test="createTime!=null">create_time=#{createTime}</if>
-            <if test="lastEditTime!=null">last_eidt_time=#{lastEditTime}</if>
-            <if test="enableStatus!=null">enable_status=#{enableStatus}</if>
+            <if test="ownerId!=null">owner_id=#{ownerId},</if>
+            <if test="areaId!=null">area_id=#{area.areaId},</if>
+            <if test="shopCategory!=null">shop_category_id=#{shopCategory.shopCategoryId},</if>
+            <if test="parentCategory!=null">parent_category_id=#{parentCategory.shopCategoryId},</if>
+            <if test="shopName!=null">shop_name=#{shopName},</if>
+            <if test="shopDesc!=null">shop_desc=#{shopDesc},</if>
+            <if test="shopAddr!=null">shop_addr=#{shopAddr},</if>
+            <if test="phone!=null">phone=#{phone},</if>
+            <if test="shopImg!=null">shop_img=#{shopImg},</if>
+            <if test="priority!=null">priority=#{priority},</if> 
+            <if test="createTime!=null">create_time=#{createTime},</if>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime},</if>
+            <if test="enableStatus!=null">enable_status=#{enableStatus},</if>
             <if test="advice!=null">advice=#{advice}</if>
         </set>
+        WHERE shop_id=#{shopId}
     </update>
 </mapper>
