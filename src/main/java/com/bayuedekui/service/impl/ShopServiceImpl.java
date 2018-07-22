@@ -31,14 +31,18 @@ public class ShopServiceImpl implements ShopService {
 
         try {
             //给店铺信息付初始值
-            shop.setEnableStatus(0);
+            shop.setEnableStatus(10);
             shop.setCreateTime(new Date());
             shop.setLastEditTime(new Date());
             //向库中插入数据库
             int effectedNum = shopDao.insertShop(shop);
+            System.out.println(shopImg);
+            System.out.println(effectedNum);
+            
             if (effectedNum <= 0) {
                 throw new ShopOperationException("店铺创建失败");
             } else {
+               
                 if (shopImg != null) {
                     //存储图片
                     try {

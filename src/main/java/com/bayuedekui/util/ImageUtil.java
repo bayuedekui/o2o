@@ -16,7 +16,13 @@ public class ImageUtil {
     private static String basePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
     private static final Random random = new Random();
-    
+
+    /**
+     * 将上传的图片存起来,将图片路径记录到数据库中
+     * @param thumbnail
+     * @param targetAddr
+     * @return
+     */
     public static String generateThumbnail(File thumbnail,String targetAddr){
         String realFileName=getRandomFileName();    //获取真实文件名(即具体上传文件名)
         String extension=getFileExtension(thumbnail);   //获取上传文案后缀名(是jpg结尾还是png结尾)
@@ -27,7 +33,7 @@ public class ImageUtil {
         //下面开始为图片加上水印
         try {
             Thumbnails.of(thumbnail).size(200,200).
-                    watermark(Positions.BOTTOM_RIGHT,ImageIO.read(new File("C:\\dddd\\o2o\\images\\watermark.jpg")),0.25f).
+                    watermark(Positions.BOTTOM_LEFT,ImageIO.read(new File("C:\\dddd\\o2o\\images\\watermark.jpg")),0.25f).
                     outputQuality(0.8f).toFile(dest);
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,7 +41,7 @@ public class ImageUtil {
 
         }
         
-        return null;
+        return PathUtil.getImgBasePath()+realtiveAddr;
     }
 
     /**
