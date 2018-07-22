@@ -1,4 +1,4 @@
 package com.bayuedekui.webcontroller.shopadmin;
 
-public class ShopManageController {
+public class ShopManagementController {
 }
