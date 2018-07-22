@@ -1,6 +1,6 @@
 package com.bayuedekui.util;
 
-public class HttpServletRequest {
+public class HttpServletRequestUtil {
     /**
      * 将请求传过来的key转化成int类型的数
      *
