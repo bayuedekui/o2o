@@ -5,7 +5,12 @@
 
 <mapper namespace="com.bayuedekui.dao.AreaDao">
     <select id="queryArea" resultType="com.bayuedekui.entity.Area">
-        select area_id,area_name,priority,create_time,last_edit_time 
+        select
+         area_id,
+         area_name,
+         priority,
+         create_time,
+         last_edit_time 
         from tb_area
         order by priority desc 
         
