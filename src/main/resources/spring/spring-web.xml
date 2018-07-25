@@ -18,7 +18,7 @@
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:default-servlet-handler />
 
-    <!-- 3.定义视图解析器(也是控制路由转发的) -->
+    <!-- 3.定义视图解析器(也是控制路由转发的,通过后台来转到WEB-INF的html页面) -->
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/html/"></property>

@@ -10,5 +10,5 @@ public class ShopAdminController {
     @RequestMapping("/shopoperation")
     public String shopOperation(){
         return "shop/shopoperation";
-    }
+    }   //通过后台的控制返回的访问的路径(html文件)
 }

@@ -1,9 +1,13 @@
 package com.bayuedekui.webcontroller.shopadmin;
 
 import com.bayuedekui.dto.ShopExecution;
+import com.bayuedekui.entity.Area;
 import com.bayuedekui.entity.PersonInfo;
 import com.bayuedekui.entity.Shop;
+import com.bayuedekui.entity.ShopCategory;
 import com.bayuedekui.enums.ShopStateEnum;
+import com.bayuedekui.service.AreaService;
+import com.bayuedekui.service.ShopCategoryService;
 import com.bayuedekui.service.ShopService;
 import com.bayuedekui.util.HttpServletRequestUtil;
 import com.bayuedekui.util.ImageUtil;
@@ -22,8 +26,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.acl.Owner;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -31,7 +36,40 @@ import java.util.Map;
 public class ShopManagementController {
     @Autowired
     private ShopService shopService;
+    @Autowired
+    private ShopCategoryService shopCategoryService;
+    @Autowired
+    private AreaService areaService;
 
+
+    /**
+     * 初始化页面的店铺类别信息和区域信息(主要时调用dao层的查询area和shopCategory方法)
+     * @return
+     */
+    @RequestMapping(value="/getshopinitinfo",method = RequestMethod.GET)
+    @ResponseBody
+    private Map<String ,Object> getShopInitInfo(){
+        Map<String ,Object> modelMap=new HashMap<String ,Object>();
+        List<Area> areaList=new ArrayList<Area>();
+        List<ShopCategory> shopCategoryList=new ArrayList<ShopCategory>();
+        try {
+            areaList=areaService.queryAreaList();
+            shopCategoryList=shopCategoryService.queryShopCategoryList(new ShopCategory()); //传入空的ShopCategory获取全部的对象
+            modelMap.put("areaList",areaList);
+            modelMap.put("shopCategoryList",shopCategoryList); 
+            modelMap.put("succcess",true);
+        } catch (Exception e) {
+            modelMap.put("success:",false);
+            modelMap.put("errMsg:",e.getMessage());
+        } 
+        return modelMap;
+    }
+
+    /**
+     * 注册店铺,向shop_category表中插入注册的店铺信息
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/registershop", method = RequestMethod.POST)
     @ResponseBody
     private Map<String, Object> registerShop(javax.servlet.http.HttpServletRequest request) {

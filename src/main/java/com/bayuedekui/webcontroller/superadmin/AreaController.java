@@ -34,7 +34,7 @@ public class AreaController {
         List<Area> list = new ArrayList<>();
 
         try {
-            list = areaService.getAreaList();
+            list = areaService.queryAreaList();
             modelMap.put("rows", list);
             modelMap.put("size", list.size());
         } catch (Exception e) {
