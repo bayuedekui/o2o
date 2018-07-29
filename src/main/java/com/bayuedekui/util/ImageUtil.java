@@ -2,11 +2,11 @@ package com.bayuedekui.util;
 
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -19,20 +19,20 @@ public class ImageUtil {
 
     /**
      * 将上传的图片存起来,将图片路径记录到数据库中
-     * @param thumbnail
+     * @param thumbnailInputStream
      * @param targetAddr
      * @return
      */
-    public static String generateThumbnail(File thumbnail,String targetAddr){
+    public static String generateThumbnail(InputStream thumbnailInputStream, String fileName, String targetAddr){
         String realFileName=getRandomFileName();    //获取真实文件名(即具体上传文件名)
-        String extension=getFileExtension(thumbnail);   //获取上传文案后缀名(是jpg结尾还是png结尾)
+        String extension=getFileExtension(fileName);   //获取上传文案后缀名(是jpg结尾还是png结尾)
         makeDirPath(targetAddr);    //创建目录路径
         String realtiveAddr=targetAddr+realFileName+extension;  //获取相对路径,加上basePath就是绝对路径
         File dest=new File(PathUtil.getImgBasePath()+realtiveAddr); //新建绝对路径的文件
         
         //下面开始为图片加上水印
         try {
-            Thumbnails.of(thumbnail).size(200,200).
+            Thumbnails.of(thumbnailInputStream).size(200,200).
                     watermark(Positions.BOTTOM_LEFT,ImageIO.read(new File("C:\\dddd\\o2o\\images\\watermark.jpg")),0.25f).
                     outputQuality(0.8f).toFile(dest);
         } catch (IOException e) {
@@ -60,9 +60,8 @@ public class ImageUtil {
      * @param cFile
      * @return
      */
-    public static String getFileExtension(File cFile){
-        String originalFileName=cFile.getName();
-        return originalFileName.substring(originalFileName.lastIndexOf("."));
+    public static String getFileExtension(String  fileName){
+        return fileName.substring(fileName.lastIndexOf("."));
     }
 
     /**
