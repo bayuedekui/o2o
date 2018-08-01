@@ -12,7 +12,14 @@ public interface ShopDao {
      int insertShop(Shop shop);
 
     /**
-     * 
+     * 更新店铺
      */
     int updateShop(Shop shop);
+
+    /**
+     * 查询店铺
+     * @param shopId
+     * @return
+     */
+    Shop queryShop(Long shopId);
 }

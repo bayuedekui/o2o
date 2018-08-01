@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -31,16 +34,16 @@ public class ShopServiceTest extends BaseTest {
     @Autowired
     private ShopDao shopDao;
     @Test   
-    public void testShopService(){
+    public void testShopService() throws FileNotFoundException {
         Shop shop = new Shop();
         shop.setOwnerId(1L);
         Area area = new Area();
         area.setAreaId(1L);
         ShopCategory sc = new ShopCategory();
         sc.setShopCategoryId(1L);
-        shop.setShopName("mytest2");
-        shop.setShopDesc("mytest2");
-        shop.setShopAddr("testaddr2");
+        shop.setShopName("mytest3");
+        shop.setShopDesc("mytest3");
+        shop.setShopAddr("testaddr3");
         shop.setPhone("13810524526");
         
         shop.setLongitude(1D);
@@ -52,7 +55,8 @@ public class ShopServiceTest extends BaseTest {
         shop.setArea(area);
         shop.setShopCategory(sc);
         File shopImg=new File("C:\\dddd\\o2o\\images\\2017060523302118864.jpg");
-        ShopExecution se = shopService.addShop(shop, shopImg);
+        InputStream is=new FileInputStream(shopImg);
+        ShopExecution se = shopService.addShop(shop, is,shopImg.getName());
         assertEquals(ShopStateEnum.CHECK.getState(),se.getState());
 //        shopDao.insertShop(shop);
         

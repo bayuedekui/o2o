@@ -1,5 +1,7 @@
 package com.bayuedekui.util;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class HttpServletRequestUtil {
     /**
      * 将请求传过来的key转化成int类型的数
@@ -52,7 +54,7 @@ public class HttpServletRequestUtil {
      * @param key
      * @return
      */
-    public static String getString(javax.servlet.http.HttpServletRequest request, String key) {
+    public static String getString(HttpServletRequest request, String key) {
         try {
             String result = request.getParameter(key);
             if (result != null) {

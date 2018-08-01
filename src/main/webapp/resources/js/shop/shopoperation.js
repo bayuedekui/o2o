@@ -10,7 +10,29 @@
 
      function getShopInitInfo(){
          //向后台拿类别信息和区域信息
-         $.getJSON(initUrl,function(data){      //ajax请求
+         $.ajax({
+             url:initUrl,
+             type:'GET',
+             contenType:false,
+             cache:false,
+             processData:false,
+             success:function (data) {
+                 var isOk=data.success;
+                 if(data.success){
+                     var tempAreaHtml="";
+                     var tempCategoryHtml="";
+                     data.shopCategoryList.map(function(item,index){
+                         tempCategoryHtml+='<option data-id="'+item.shopCategoryId+'">'+item.shopCategoryName+'</option>>'
+                     });
+                     data.areaList.map(function(item,index) {
+                         tempAreaHtml+='<option data-id="'+item.areaId+'">'+item.areaName+'</option>';
+                     });
+                     $("#shop-category").html(tempCategoryHtml);
+                     $("#area").html(tempAreaHtml);
+                 }
+             }//向后台获取区域信息和所属类别信息结束
+         });
+         /*$.getJSON(initUrl,function(data){      //采用$.getJSON方法不行
              var isOk=data.success;
              if(data.success){
                  var tempAreaHtml="";
@@ -24,7 +46,7 @@
                  $("#shop-category").html(tempCategoryHtml);
                  $("#shop-area").html(tempAreaHtml);
              }
-         });//向后天获取区域信息和所属类别信息结束
+         });*/
          
          //收集用户所填数据,向后台注册shop
          $("#submit").click(function(){
@@ -45,14 +67,20 @@
               };
              //获取上传的文件
              var shopImg=$("#shop-img")[0].files[0];
-             var formData=new formData();
+             var formData=new FormData();
              formData.append('shopImg',shopImg);
-             formData.append('shopStr',JSON.stringify(shop));
+             formData.append('shopStr',JSON.stringify(shop));   //像后天标注是通过shopStr没这个传过去的
+             var verifyCodeInput=$("#j_kaptcha").val();
+             if(!verifyCodeInput){
+                 $.toast("请输入验证码!");
+                 return;
+             }
+             formData.append('verifyCodeInput',verifyCodeInput);
              $.ajax({
                  url:registerUrl,
                  type:'POST',
                  data:formData,
-                 contentType:false,
+                 contentType:false, 
                  processData:false,
                  cache:false, 
                  success:function (data) {
@@ -61,6 +89,7 @@
                      }else{
                          $.toast('注册店铺失败'+data.errMsg);
                      }
+                     $("#kaptcha_img").click();
                  }
              });
              

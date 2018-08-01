@@ -3,6 +3,32 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bayuedekui.dao.ShopDao">
+    <resultMap id="shopMap" type="com.bayuedekui.entity.Shop">
+        <id column="shop_id" property="shopId" />
+        <result column="shop_name" property="shopName" />
+        <result column="shop_desc" property="shopDesc" />  
+        <result column="shop_addr" property="shopAddr" />
+        <result column="phone" property="phone" />
+        <result column="shop_img" property="shopImg"/>
+        <result column="priority" property="priority"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_edit_time" property="lastEditTime"/>
+        <result column="enables" property="enables"/>
+        <result column="advice" property="advice"/>
+        <association property="area" column="area_id" javaType="com.bayuedekui.entity.Area">
+            <id column="area_id" property="areaId"/>
+            <result column="area_name" property="areaName"/>
+        </association>
+    </resultMap>
+    
+    
+    
+    
+    
+    
+    
     <insert id="insertShop" useGeneratedKeys="true" keyProperty="shopId"
             keyColumn="shop_id">
         <!-- 具体的sql -->
