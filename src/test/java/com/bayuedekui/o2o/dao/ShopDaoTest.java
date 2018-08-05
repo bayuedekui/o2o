@@ -1,13 +1,21 @@
 package com.bayuedekui.o2o.dao;
 
 import com.bayuedekui.dao.ShopDao;
+import com.bayuedekui.dto.ShopExecution;
 import com.bayuedekui.entity.Area;
 import com.bayuedekui.entity.Shop;
 import com.bayuedekui.entity.ShopCategory;
+import com.bayuedekui.exceptions.ShopOperationException;
 import com.bayuedekui.o2o.BaseTest;
+import com.bayuedekui.service.ShopService;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,8 +24,31 @@ import static org.junit.Assert.assertEquals;
 public class ShopDaoTest extends BaseTest {
     @Autowired
     private ShopDao shopDao;
+    @Autowired
+    private ShopService shopService;
 
     @Test
+    public void testModifyShop() throws ShopOperationException,FileNotFoundException {
+        Shop shop=new Shop();
+        shop.setShopId(1L);
+        shop.setShopName("0805修改后端而店铺的名字");
+        File shopImg=new File("C:\\dddd\\o2o\\images\\dabai.jpg");
+        InputStream is=new FileInputStream(shopImg);
+        ShopExecution shopExecution=shopService.modifyShop(shop,is,"dabai.jpg");
+        System.out.println("新的图片的地址为:"+shopExecution.getShop().getShopImg());
+    }
+    
+    @Test
+    public void testQueryShopId(){
+        long shopId=1;
+        Shop shop=shopDao.queryShop(shopId);
+        System.out.println(shop.getArea().getAreaName());
+        System.out.println(shop.getArea().getAreaId());
+    }
+    
+    
+    @Test
+    @Ignore
     public void testInsertShop() {
         Shop shop = new Shop();
         shop.setOwnerId(1L);
@@ -47,6 +78,7 @@ public class ShopDaoTest extends BaseTest {
     }
     
     @Test
+    @Ignore
     public void testUpdateShop(){
         Shop shop = new Shop();
        

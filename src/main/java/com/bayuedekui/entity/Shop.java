@@ -27,9 +27,19 @@ public class Shop {
     private String advice;
     
     private Area area;
+    private PersonInfo owner;
     private List<ShopAuthMap> staffList;
     private ShopCategory shopCategory;
     private ShopCategory parentCategory;
+    
+    
+    public PersonInfo getOwner() {
+        return owner;
+    }
+
+    public void setOwner(PersonInfo owner) {
+        this.owner = owner;
+    }
 
     public Long getShopId() {
         return shopId;

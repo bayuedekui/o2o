@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,7 +45,34 @@ public class ShopManagementController {
     @Autowired
     private AreaService areaService;
 
-
+    /**
+     * 通过shopId来获取shop的信息,回显到前端,共前端显示然后修改
+     * @param request
+     * @return
+     */
+    @RequestMapping(value="/getbyshopid",method = RequestMethod.GET)
+    private Map<String ,Object> getShopById(HttpServletRequest request){
+        Map<String ,Object> modelMap=new HashMap<>();
+        Long shopId=HttpServletRequestUtil.getLong(request,"shopId");
+        if(shopId>-1){  //当请求中有shopId时候,开始可以修改地区,位置等信息
+            try {
+                    Shop shop=shopService.getByShopId(shopId);
+                    List<Area> areaList=areaService.queryAreaList();
+                    modelMap.put("shop",shop);
+                    modelMap.put("areaList",areaList);
+                    modelMap.put("success",true);
+            } catch (Exception e) {
+                modelMap.put("success",false);
+                modelMap.put("errMsg",e.getMessage());
+            } 
+        }else{
+            modelMap.put("success",false);
+            modelMap.put("errMsg","empty shopId");
+        }
+        return modelMap;
+    }
+    
+    
     /**
      * 初始化页面的店铺类别信息和区域信息(主要时调用dao层的查询area和shopCategory方法)
      * @return

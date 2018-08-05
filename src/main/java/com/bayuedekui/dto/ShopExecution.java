@@ -5,6 +5,9 @@ import com.bayuedekui.enums.ShopStateEnum;
 
 import java.util.List;
 
+/**
+ * 操作店铺的一些状态
+ */
 public class ShopExecution {
     //结果状态
     private int state;

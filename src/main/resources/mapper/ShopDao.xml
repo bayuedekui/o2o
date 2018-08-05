@@ -21,8 +21,39 @@
             <id column="area_id" property="areaId"/>
             <result column="area_name" property="areaName"/>
         </association>
+        <association property="shopCategory" column="shop_category_id" javaType="com.bayuedekui.entity.ShopCategory">
+            <id column="shop_category_id" property="shopCategoryId"/>
+            <result column="shop_category_name" property="shopCategoryName"/>
+        </association>
+        <association property="owner" column="user_id" javaType="com.bayuedekui.entity.PersonInfo">
+            <id column="user_id" property="userId"/>
+            <result column="name" property="name"/>
+        </association>
     </resultMap>
-    
+    <select id="queryShop" resultMap="shopMap" parameterType="Long">
+        select 
+        s.shop_id,
+        s.shop_name,
+        s.shop_desc,
+        s.shop_addr,
+        s.phone,
+        s.shop_img,
+        s.priority,
+        s.create_time,
+        s.last_edit_time,
+        s.enable_status,
+        s.advice,
+        a.area_id,
+        a.area_name,
+        sc.shop_category_id,
+        sc.shop_category_name
+        from 
+        tb_shop s,
+        tb_area a,
+        tb_shop_category sc
+        where s.area_id=a.area_id and s.shop_category_id=sc.shop_category_id
+        and s.shop_id=#{shopId}
+    </select>
     
     
     
