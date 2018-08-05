@@ -19,6 +19,21 @@ public class HttpServletRequestUtil {
     }
 
     /**
+     * 将请求中的key转化为Long类型的数据
+     * @param request
+     * @param key
+     * @return
+     */
+    public static long getLong(HttpServletRequest request,String key){
+        try {
+            return Long.parseLong(request.getParameter(key));
+        }catch(Exception e){
+            return -1;
+        }
+        
+    }
+
+    /**
      * 转化为double类型的数据
      *
      * @param request

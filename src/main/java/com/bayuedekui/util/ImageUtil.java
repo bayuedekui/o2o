@@ -73,6 +73,23 @@ public class ImageUtil {
         if(!dirPath.exists()){   //如果对应的目录不存在,则创建
             dirPath.mkdirs();       //将一路的文件夹都创建出来
         }
-        
+    }
+
+    /**
+     * storePath如果是文件路径还是目录路径,如果时文件路径则删除文件,如果是目录则删除该目录下的所有文件
+     * @param storePath
+     */
+    public static void deleteFilePath(String storePath){
+        File fileOrPath=new File(PathUtil.getImgBasePath()+storePath);
+        if(fileOrPath.exists()){
+            if(fileOrPath.isDirectory()){
+                File[] files=fileOrPath.listFiles();    //将目录下的内容统统放到File数组里
+                for(int i=0;i<files.length;i++){
+                    files[i].delete();
+                }
+            }else {
+                fileOrPath.delete();
+            }
+        }
     }
 }
