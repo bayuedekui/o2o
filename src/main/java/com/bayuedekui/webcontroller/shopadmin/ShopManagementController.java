@@ -50,7 +50,8 @@ public class ShopManagementController {
      * @param request
      * @return
      */
-    @RequestMapping(value="/getbyshopid",method = RequestMethod.GET)
+    @RequestMapping(value="/getshopbyid",method = RequestMethod.GET)
+    @ResponseBody
     private Map<String ,Object> getShopById(HttpServletRequest request){
         Map<String ,Object> modelMap=new HashMap<>();
         Long shopId=HttpServletRequestUtil.getLong(request,"shopId");
@@ -101,9 +102,9 @@ public class ShopManagementController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/registershop", method = RequestMethod.POST)
+    @RequestMapping(value = "/modifyshop", method = RequestMethod.POST)
     @ResponseBody
-    private Map<String, Object> registerShop(HttpServletRequest request) {
+    private Map<String, Object> modifyShop(HttpServletRequest request) {
         Map<String, Object> modelMap = new HashMap<String, Object>();
         
         //先进性验证码的验证
@@ -131,6 +132,72 @@ public class ShopManagementController {
         if (commonsMultipartResolver.isMultipart(request)) {  //判断请求中是不是含有上传的文件流
             MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request; //转化成文件上传轮流的类型
             shopImg = (CommonsMultipartFile) multipartHttpServletRequest.getFile("shopImg");     //保存上传文件流
+        } 
+        //2.修改店铺
+        if (shop != null && shop.getShopId() != null) {
+            PersonInfo owner = new PersonInfo();
+            //到时候要通过session来获取,现在只是暂时写死
+            owner.setUserId(1L);
+            shop.setOwnerId(1L);
+
+            ShopExecution se ;  //电泳service层向数据库中插入店铺信息
+            try {
+                if(shopImg==null){
+                    se = shopService.modifyShop(shop, null,null);
+                }else {
+                    se = shopService.modifyShop(shop, shopImg.getInputStream(), shopImg.getOriginalFilename());
+                }
+                if(se.getState()==ShopStateEnum.SUCCESS.getState()){
+                    modelMap.put("success",true);   //返回注册成功的标记
+                }else{
+                    modelMap.put("success",false);
+                    modelMap.put("errMsg",se.getStateInfo());
+                } 
+            } catch (ShopOperationException e){
+                modelMap.put("success",false);
+                modelMap.put("errMsg",e.getMessage());
+            } catch (IOException e) {
+                modelMap.put("success",false);
+                modelMap.put("errMsg",e.getMessage());
+            }
+            return modelMap;
+        } else {
+            modelMap.put("success:", false);
+            modelMap.put("errMsg", "请输入店铺id");
+            return modelMap;
+        }
+
+        //3.返回结果
+    }
+
+    private Map<String, Object> registerShop(HttpServletRequest request) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+
+        //先进性验证码的验证
+        if(!CodeUtil.checkVerifyCode(request)){
+            modelMap.put("success",false);
+            modelMap.put("errMsg","验证码输入错误");
+            return modelMap;
+        }
+
+        //1.接受并转化相应的参数,包括店铺信息以及图片信息
+        String shopStr = HttpServletRequestUtil.getString(request, "shopStr");
+        ObjectMapper mapper = new ObjectMapper();
+        Shop shop = null;
+        try {
+            shop = mapper.readValue(shopStr, Shop.class);  //通过jackson的依赖,将传来的以Shop实体对象传出
+        } catch (Exception e) {
+            modelMap.put("success", false);
+            modelMap.put("errMsg", e.getMessage());
+            return modelMap;
+        }
+        //上传图片
+        CommonsMultipartFile shopImg = null;
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver(
+                request.getSession().getServletContext());   //文件上传解析器,将request中的图片信息解析出来
+        if (commonsMultipartResolver.isMultipart(request)) {  //判断请求中是不是含有上传的文件流
+            MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request; //转化成文件上传轮流的类型
+            shopImg = (CommonsMultipartFile) multipartHttpServletRequest.getFile("shopImg");     //保存上传文件流
         } else {
             modelMap.put("success:", false);
             modelMap.put("errMsg", "上传图片不能为空");
@@ -138,10 +205,9 @@ public class ShopManagementController {
         }
         //2.注册店铺
         if (shop != null && shopImg != null) {
-            PersonInfo owner = new PersonInfo();
+            PersonInfo owner = (PersonInfo) request.getSession().getAttribute("user");
             //到时候要通过session来获取,现在只是暂时写死
-            owner.setUserId(1L);
-            shop.setOwnerId(1L);
+            shop.setOwner(owner);
 
             ShopExecution se ;  //电泳service层向数据库中插入店铺信息
             try {
@@ -151,7 +217,7 @@ public class ShopManagementController {
                 }else{
                     modelMap.put("success",false);
                     modelMap.put("errMsg",se.getStateInfo());
-                } 
+                }
             } catch (ShopOperationException e){
                 modelMap.put("success",false);
                 modelMap.put("errMsg",e.getMessage());
@@ -168,7 +234,7 @@ public class ShopManagementController {
 
         //3.返回结果
 
-      
+
     }
 
     /**
