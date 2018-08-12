@@ -3,11 +3,47 @@
  * 
  */
  $(function(){
+     var shopId=getQueryString('shopId');
+     var idEdit=shopId?true:false;  //如果传入了shopId那么表示是编辑店铺,不穿shopId表示是注册店铺
      var initUrl='/o2o/shopadmin/getshopinitinfo';
      var registerUrl='/o2o/shopadmin/registershop';
-   getShopInitInfo(); //调用方法,获取后台数据显示到前台上
+     var shopInfoUrl="/o2o/shopadmin/getshopbyid?shopId="+shopId;
+     var editShopUrl="/o2o/shopadm/modifyshop";
+     
+     
+     getShopInitInfo(); //调用方法,获取后台数据显示到前台上
 
-
+    function getShopInfo(shopId){
+        $.ajax({
+            url:shopInfoUrl,
+            type:'GET',
+            success:function (data) {
+                if(data.success){
+                    var shop=data.shop;
+                    $('#shop-name').val(shop.shopName);
+                    $('#shop-addr').val(shop.shopAddr);
+                    $('#shop-phone').val(shop.phone);
+                    $('#shop-desc').val(shop.shopDesc);
+                    var shopCategory='<option data-id="'
+                        +shop.shopCategory.shopCategoryId
+                        +'" selected>'+shop.shopCategory.shopcategoryName+'</option>>';
+                    var tempAreaHtml='';
+                    data.areaList.map(function(item,index){
+                        tempAreaHtml+='<option data-id="'+item.areaId+'">'+item.areaName+'</option>'
+                    });
+                    $('#shop-category').html(shopCategory);
+                    $('#shop-category').attr('disables',disabled);
+                    $('#area').html(tempAreaHtml);
+                    $('#area').attr('data-id',shop.areaId);
+                }
+            }
+        });
+    }
+     
+     
+     /**
+      * 初始化shopInfo包括区域,店铺种类的下拉列表
+      */
      function getShopInitInfo(){
          //向后台拿类别信息和区域信息
          $.ajax({
