@@ -10,6 +10,7 @@ import com.bayuedekui.o2o.BaseTest;
 import com.bayuedekui.service.AreaService;
 import com.bayuedekui.service.ShopService;
 import com.dyuproject.protostuff.LimitedInputStream;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,11 +30,19 @@ public class ShopServiceTest extends BaseTest {
     private ShopService shopService;
     @Autowired
     private AreaService areaService;
-    
-    
     @Autowired
     private ShopDao shopDao;
-    @Test   
+    
+    @Test
+    public void testGetShopList(){
+        Shop shop=new Shop();
+        ShopCategory sc=new ShopCategory();
+    }
+    
+    
+    
+    @Test
+    @Ignore
     public void testShopService() throws FileNotFoundException {
         Shop shop = new Shop();
         shop.setOwnerId(1L);
