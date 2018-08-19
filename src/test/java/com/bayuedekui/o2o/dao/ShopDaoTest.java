@@ -3,6 +3,7 @@ package com.bayuedekui.o2o.dao;
 import com.bayuedekui.dao.ShopDao;
 import com.bayuedekui.dto.ShopExecution;
 import com.bayuedekui.entity.Area;
+import com.bayuedekui.entity.PersonInfo;
 import com.bayuedekui.entity.Shop;
 import com.bayuedekui.entity.ShopCategory;
 import com.bayuedekui.exceptions.ShopOperationException;
@@ -18,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,8 +28,19 @@ public class ShopDaoTest extends BaseTest {
     private ShopDao shopDao;
     @Autowired
     private ShopService shopService;
+    
+    @Test
+    public void testQueryShopList(){
+        Shop shopCondition=new Shop();
+        PersonInfo owner=new PersonInfo();
+        owner.setUserId(1L);
+        shopCondition.setOwner(owner);
+        List<Shop> shopList=shopDao.queryShopList(shopCondition,0,5);
+        System.out.println("店铺列表的大小为:"+shopList.size());
+    }
 
     @Test
+    @Ignore
     public void testModifyShop() throws ShopOperationException,FileNotFoundException {
         Shop shop=new Shop();
         shop.setShopId(1L);
@@ -39,9 +52,10 @@ public class ShopDaoTest extends BaseTest {
     }
     
     @Test
+    @Ignore
     public void testQueryShopId(){
         long shopId=1;
-        Shop shop=shopDao.queryShop(shopId);
+        Shop shop=shopDao.queryByShopId(shopId);
         System.out.println(shop.getArea().getAreaName());
         System.out.println(shop.getArea().getAreaId());
     }

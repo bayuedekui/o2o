@@ -4,12 +4,17 @@
  */
  $(function(){
      var shopId=getQueryString('shopId');
-     var idEdit=shopId?true:false;  //如果传入了shopId那么表示是编辑店铺,不穿shopId表示是注册店铺
+     var isEdit=shopId?true:false;  //如果传入了shopId那么表示是编辑店铺,不穿shopId表示是注册店铺
      var initUrl='/o2o/shopadmin/getshopinitinfo';
      var registerUrl='/o2o/shopadmin/registershop';
      var shopInfoUrl="/o2o/shopadmin/getshopbyid?shopId="+shopId;
-     var editShopUrl="/o2o/shopadm/modifyshop";
+     var editShopUrl="/o2o/shopadmin/modifyshop";
      
+     if(!isEdit){   //根据不同的状态进行不同的操作(注册则获取种类以及区域列表,更改则根据shopId获取店铺信息)
+         getShopInitInfo();
+     }else{
+         getShopInfo(shopId);
+     }
      
      getShopInitInfo(); //调用方法,获取后台数据显示到前台上
 
@@ -32,9 +37,9 @@
                         tempAreaHtml+='<option data-id="'+item.areaId+'">'+item.areaName+'</option>'
                     });
                     $('#shop-category').html(shopCategory);
-                    $('#shop-category').attr('disables',disabled);
+                    $('#shop-category').attr('disabled','disabled');
                     $('#area').html(tempAreaHtml);
-                    $('#area').attr('data-id',shop.areaId);
+                    $("#area option[data-id='"+shop.area.areaId+"']").attr("selected","selected");
                 }
             }
         });
@@ -87,6 +92,9 @@
          //收集用户所填数据,向后台注册shop
          $("#submit").click(function(){
               var shop={};
+              if(isEdit){
+                  shop.shopId=shopId;
+              }
               shop.shopName=$("#shop-name").val();
               shop.shopAddr=$("#shop-addr").val();
               shop.phone=$("#shop-phone").val();
@@ -113,7 +121,7 @@
              }
              formData.append('verifyCodeInput',verifyCodeInput);
              $.ajax({
-                 url:registerUrl,
+                 url:(isEdit?editShopUrl:registerUrl),
                  type:'POST',
                  data:formData,
                  contentType:false, 
@@ -121,9 +129,9 @@
                  cache:false, 
                  success:function (data) {
                      if(data.success){
-                         $.toast('注册店铺成功!');
+                         $.toast(isEdit?'修改店铺信息成功':'注册店铺成功!');
                      }else{
-                         $.toast('注册店铺失败'+data.errMsg);
+                         $.toast(isEdit?'修改店铺信息失败':'注册店铺失败'+data.errMsg);
                      }
                      $("#kaptcha_img").click();
                  }

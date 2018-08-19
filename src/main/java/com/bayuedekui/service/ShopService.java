@@ -10,6 +10,14 @@ import java.io.InputStream;
 public interface ShopService {
 
     /**
+     * 根据shopCondition分页查询店铺列表数据
+     * @param shopCondition
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    public ShopExecution getShopList(Shop shopCondition,int pageIndex,int pageSize);
+    /**
      * 增加店铺信息的接口
      * @param shop
      * @param fileName
