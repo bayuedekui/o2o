@@ -86,7 +86,7 @@
         tb_area a
         <where>
             <if test="shopCondition.shopCategory!=null and shopCondition.shopCategory.shopCategoryId!=null">
-                and s.shop_category_id=#{shopCodition.shopCategory.shopCategoryId}
+                and s.shop_category_id=#{shopCondition.shopCategory.shopCategoryId}
             </if>
             <if test="shopCondition.area!=null and shopCondition.area.areaId!=null">
                 and a.area_id=#{shopCondition.area.areaId}

@@ -24,6 +24,13 @@ public class ShopServiceImpl implements ShopService {
     @Autowired
     private ShopDao shopDao;
 
+    /**
+     * 获取shopList
+     * @param shopCondition
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
     @Override
     public ShopExecution getShopList(Shop shopCondition, int pageIndex, int pageSize) {
         int rowIndex=PageCalculator.calculateRowIndex(pageIndex,pageSize);
@@ -39,6 +46,13 @@ public class ShopServiceImpl implements ShopService {
         return se;
     }
 
+    /**
+     * 向数据库中增加店铺信息(注册店铺)
+     * @param shop
+     * @param shopImgInputStream
+     * @param fileName
+     * @return
+     */
     @Override
     @Transactional
     public ShopExecution addShop(Shop shop, InputStream shopImgInputStream, String fileName) {

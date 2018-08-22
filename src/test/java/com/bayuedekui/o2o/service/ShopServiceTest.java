@@ -35,8 +35,13 @@ public class ShopServiceTest extends BaseTest {
     
     @Test
     public void testGetShopList(){
-        Shop shop=new Shop();
+        Shop shopCondition=new Shop();
         ShopCategory sc=new ShopCategory();
+        sc.setShopCategoryId(3L);
+        shopCondition.setShopCategory(sc);
+        ShopExecution se = shopService.getShopList(shopCondition, 1, 2);
+        System.out.println("第一页的店铺列表总数为:"+se.getShopList().size());
+        System.out.println("总数为:"+se.getCount());
     }
     
     

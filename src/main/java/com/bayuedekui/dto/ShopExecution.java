@@ -20,7 +20,7 @@ public class ShopExecution {
     //获取店铺列表(查询店铺的时候用)
     private List<Shop> shopList;
 
-    private ShopExecution() {
+    public ShopExecution() {
     }
 
     //失败的构造器
