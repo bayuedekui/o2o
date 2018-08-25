@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import sun.misc.Request;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +35,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 @Controller
 @RequestMapping("/shopadmin")
 public class ShopManagementController {
@@ -44,6 +44,15 @@ public class ShopManagementController {
     private ShopCategoryService shopCategoryService;
     @Autowired
     private AreaService areaService;
+
+    @RequestMapping(value="/getshoplsit",method = RequestMethod.GET)
+    @ResponseBody
+    private Map<String,Object> getShopList(HttpServletRequest request){
+
+        return null;
+
+    }
+
 
     /**
      * 通过shopId来获取shop的信息,回显到前端,共前端显示然后修改
@@ -72,8 +81,8 @@ public class ShopManagementController {
         }
         return modelMap;
     }
-    
-    
+
+
     /**
      * 初始化页面的店铺类别信息和区域信息(主要时调用dao层的查询area和shopCategory方法)
      * @return
