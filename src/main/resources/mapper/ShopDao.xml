@@ -98,7 +98,7 @@
                 and s.enable_status=#{shopCondition.enableStatus}
             </if>
             <if test="shopCondition.owner!=null and shopCondition.owner.userId!=null">
-                and s.owner_=#{shopCondition.owner.userId}
+                and s.owner_id=#{shopCondition.owner.userId}
             </if>
         </where>
 

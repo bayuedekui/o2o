@@ -10,7 +10,7 @@ public class HttpServletRequestUtil {
      * @param key
      * @return
      */
-    public static int getInt(javax.servlet.http.HttpServletRequest request, String key) {
+    public static int getInt(HttpServletRequest request, String key) {
         try {
             return Integer.parseInt(request.getParameter(key));     //或者用integer.decode();方法
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class HttpServletRequestUtil {
      * @param key
      * @return
      */
-    public static double getDouble(javax.servlet.http.HttpServletRequest request, String key) {
+    public static double getDouble(HttpServletRequest request, String key) {
         try {
             return Double.valueOf(request.getParameter(key));
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class HttpServletRequestUtil {
      * @param key
      * @return
      */
-    public static boolean getBoolean(javax.servlet.http.HttpServletRequest request, String key) {
+    public static boolean getBoolean(HttpServletRequest request, String key) {
         try {
             return Boolean.valueOf(request.getParameter(key));
         } catch (Exception e) {
