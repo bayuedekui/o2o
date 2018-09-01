@@ -15,7 +15,7 @@
         <result column="latitude" property="latitude"/>
         <result column="create_time" property="createTime"/>
         <result column="last_edit_time" property="lastEditTime"/>
-        <result column="enables" property="enables"/>
+        <result column="enable_status" property="enableStatus"/>
         <result column="advice" property="advice"/>
         <association property="area" column="area_id" javaType="com.bayuedekui.entity.Area">
             <id column="area_id" property="areaId"/>

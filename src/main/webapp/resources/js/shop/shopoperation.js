@@ -54,7 +54,7 @@
          $.ajax({
              url:initUrl,
              type:'GET',
-             contenType:false,
+             contentType:false,
              cache:false,
              processData:false,
              success:function (data) {
