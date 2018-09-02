@@ -1,6 +1,5 @@
 package com.bayuedekui.service;
 
-import com.bayuedekui.dao.ProductCategoryDao;
 import com.bayuedekui.entity.ProductCategory;
 import org.apache.ibatis.annotations.Param;
 
