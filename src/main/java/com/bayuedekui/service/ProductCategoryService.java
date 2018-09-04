@@ -1,6 +1,8 @@
 package com.bayuedekui.service;
 
+import com.bayuedekui.dto.ProductCategoryExecution;
 import com.bayuedekui.entity.ProductCategory;
+import com.bayuedekui.exceptions.ProductCategoryOperationException;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,5 +15,9 @@ public interface ProductCategoryService {
      * @return
      */
     List<ProductCategory> getProductCategoryList(@Param("shopId") long shopId);
+
+
+
+    ProductCategoryExecution batchAddProductCategory(List<ProductCategory> productCategoryList) throws ProductCategoryOperationException;
 
 }

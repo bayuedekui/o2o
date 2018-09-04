@@ -1,21 +1,21 @@
 package com.bayuedekui.enums;
 
 
-public enum ProductCategoryEnum {
-    INNER_ERROR(-1001, "操作失败");
+public enum ProductCategoryStateEnum {
+    SUCCESS(1,"创建成功"),INNER_ERROR(-1001, "操作失败"),EMPTY_lIST(-1002,"添加为空");
 
     private int state;
     private String stateInfo;
 
 
-    private ProductCategoryEnum(int state, String stateInfo) {
+    private ProductCategoryStateEnum(int state, String stateInfo) {
         this.state = state;
         this.stateInfo = stateInfo;
 
     }
 
-    public static ProductCategoryEnum stateOf(int index) {
-        for (ProductCategoryEnum state : values()) {
+    public static ProductCategoryStateEnum stateOf(int index) {
+        for (ProductCategoryStateEnum state : values()) {
             if (state.getState() == index) {
                 return state;
             }
