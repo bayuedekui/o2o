@@ -4,6 +4,7 @@ import com.bayuedekui.dao.ProductCategoryDao;
 import com.bayuedekui.entity.ProductCategory;
 import com.bayuedekui.o2o.BaseTest;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
@@ -18,6 +19,16 @@ public class ProductCategoryDaoTest extends BaseTest {
 
 
     @Test
+    public void test_deleteProductCategory(){
+        int i = productCategoryDao.deleteProductCategory(7L,1L);
+        System.out.println(i);
+    }
+
+
+
+
+    @Test
+    @Ignore
     public void getProductCategoryTest(){
         List<ProductCategory> productCategoryList=productCategoryDao.queryProductCategoryList(1L);
         for(ProductCategory productCategory:productCategoryList){
@@ -30,6 +41,7 @@ public class ProductCategoryDaoTest extends BaseTest {
 
 
     @Test
+    @Ignore
     public void test_batchInsertProductCateggory(){
         ProductCategory productCategory=new ProductCategory();
         productCategory.setProductCategoryName("测试商品类别1");

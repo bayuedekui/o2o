@@ -24,14 +24,14 @@ $(function () {
     function handleProductCategoryList(data) {
         var html = "";
         data.map(function (item, index) {
-            html += '<div class="row row-shop">'
+            html += '<div class="row row-product-category">'
                 + '<div class="col-40">' + item.productCategoryName + '</div>'
                 + '<div class="col-40">' + item.priority + '</div>'
-                + '<div col-20><a id="deleteProductCategory(' + item.productCategoryId + ')" class="button button-small button-info" >删除</a></div>'
+                + '<div class="col-20"><a id="deleteProductCategory(' + item.productCategoryId + ')" class="button button-small button-info" >删除</a></div>'
                 + '</div>';
         });
 
-        $(".productCategory-wrap").append(html);
+        $(".category-wrap").append(html);
     }
 
     //点击新增按钮事件
@@ -41,7 +41,7 @@ $(function () {
             + '<div class="col-40"><input class="category-input priority" type="number" placeholder="优先级"></div>'
             + '<div class="col-20"><a href="#" class="button button-small delete">删除</a></div>'
             + '</div>';
-        $(".productCategory-wrap").append(tempHtml);
+        $(".category-wrap").append(tempHtml);
     });
     //点击提交按钮事件
     $("#submit").click(function () {
@@ -54,14 +54,22 @@ $(function () {
             productCategoryList.push(tempProCateObj);
         });
         $.ajax({
-            url: "o2o/shopadmn/addproductcategorys",
+            url: "/o2o/shopadmin/addproductcategorys",
             type: "POST",
             data: JSON.stringify(productCategoryList),
+            contentType:'application/json',
             success: function (data) {
                 if (data.success) {
                     $.toast("提交成功!");
-                    //重新展现增加后的商品列表
-                    getShopCategory();
+                    //重新展现增加后的商品列表(这样再调用一便方法后导致页面内容多了一倍,应该重新加载下页面)
+                    // getShopCategory();
+
+                    //优化后的方法
+                    var timeInterval=window.setInterval(function () {
+                        window.location.reload();
+                        window.clearInterval(timeInterval);
+                    },2000);
+
                 } else {
                     $.toast("提交失败!");
                 }

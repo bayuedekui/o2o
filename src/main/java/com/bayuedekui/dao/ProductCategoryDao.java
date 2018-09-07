@@ -2,6 +2,7 @@ package com.bayuedekui.dao;
 
 import com.bayuedekui.entity.ProductCategory;
 import org.apache.ibatis.annotations.Param;
+import org.junit.runners.Parameterized;
 
 import java.util.List;
 
@@ -20,4 +21,11 @@ public interface ProductCategoryDao {
      * @return
      */
      int batchInsertProducctCategoryList(List<ProductCategory> productCategoryList);
+
+    /**
+     * 根据商品类别的id删除库中的类别记录
+     * @param productCategoryId
+     * @return
+     */
+     int deleteProductCategory(@Param("productCategoryId") Long productCategoryId,@Param("shopId") Long shopId);
 }
