@@ -17,7 +17,21 @@ public interface ProductCategoryService {
     List<ProductCategory> getProductCategoryList(@Param("shopId") long shopId);
 
 
-
+    /**
+     * 批量增加商品类别
+     * @param productCategoryList
+     * @return
+     * @throws ProductCategoryOperationException
+     */
     ProductCategoryExecution batchAddProductCategory(List<ProductCategory> productCategoryList) throws ProductCategoryOperationException;
+
+
+    /**
+     * 单个删除商品类别
+     * @param productCategoryId
+     * @param shopId
+     * @return
+     */
+    ProductCategoryExecution deleteProductCategory(Long productCategoryId,Long shopId);
 
 }

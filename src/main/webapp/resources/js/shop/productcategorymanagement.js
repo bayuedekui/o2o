@@ -24,14 +24,14 @@ $(function () {
     function handleProductCategoryList(data) {
         var html = "";
         data.map(function (item, index) {
-            html += '<div class="row row-product-category">'
+            html += '<div class="row row-product-category now">'
                 + '<div class="col-40">' + item.productCategoryName + '</div>'
                 + '<div class="col-40">' + item.priority + '</div>'
-                + '<div class="col-20"><a id="deleteProductCategory(' + item.productCategoryId + ')" class="button button-small button-info" >删除</a></div>'
+                + '<div class="col-20"><a href="#" data-id="'+item.productCategoryId+'" class="button button-small button-info delete" >删除</a></div>'
                 + '</div>';
         });
 
-        $(".category-wrap").append(html);
+        $(".category-wrap").html(html);
     }
 
     //点击新增按钮事件
@@ -61,14 +61,8 @@ $(function () {
             success: function (data) {
                 if (data.success) {
                     $.toast("提交成功!");
-                    //重新展现增加后的商品列表(这样再调用一便方法后导致页面内容多了一倍,应该重新加载下页面)
-                    // getShopCategory();
-
-                    //优化后的方法
-                    var timeInterval=window.setInterval(function () {
-                        window.location.reload();
-                        window.clearInterval(timeInterval);
-                    },2000);
+                    //重新展现增加后的商品列表(这样再调用一便方法后导致页面内容多了一倍(不要采用append就好),应该重新加载下页面)
+                    getShopCategory();
 
                 } else {
                     $.toast("提交失败!");
@@ -79,4 +73,34 @@ $(function () {
 
     });
 
+
+    //删除前台页面的一行显示记录(并未增加到数据库中)
+    $('.category-wrap').on('click','.row-product-category.temp .delete',function (e) {
+        console.log($(this).parent().parent());
+        $(this).parent().parent().remove();
+    });
+
+    //删除已经存到数据库里的内容
+    $('.category-wrap').on('click','.row-product-category.now .delete',function (e) {
+        var target=e.currentTarget;
+      window.confirm("确定删除?")?$.ajax({
+                url:"/o2o/shopadmin/removeproductcategory",
+                type:"POST",
+                data:{
+                    productCategoryId:target.dataset.id
+                },
+                dataType:'json',
+                success:function(data){
+                    if(data.success){
+                        $.toast("删除成功!");
+                        //重新赋值商品类别列表
+                       getShopCategory();
+
+                    }else{
+                        $.toast("删除失败!");
+                    }
+                }
+            }):"";
+
+    });
 });

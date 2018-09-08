@@ -35,10 +35,25 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
                     return new ProductCategoryExecution(ProductCategoryStateEnum.SUCCESS);
                 }
             } catch (Exception e) {
-                throw new ProductCategoryOperationException("bitchAddProductCategory error:"+e.getMessage());
+                throw new ProductCategoryOperationException("bitchAddProductCategory error:" + e.getMessage());
             }
-        }else{
+        } else {
             return new ProductCategoryExecution(ProductCategoryStateEnum.EMPTY_lIST);
+        }
+    }
+
+    @Override
+    @Transactional
+    public ProductCategoryExecution deleteProductCategory(Long productCategoryId, Long shopId) throws ProductCategoryOperationException {
+        try {
+            int i = productCategoryDao.deleteProductCategory(productCategoryId, shopId);
+            if (i <= 0) {
+                throw new ProductCategoryOperationException("商品类别删除失败");
+            } else {
+                return new ProductCategoryExecution(ProductCategoryStateEnum.SUCCESS);
+            }
+        } catch (Exception e) {
+            throw new ProductCategoryOperationException("delete productCategory failed  : " + e.getMessage());
         }
     }
 
