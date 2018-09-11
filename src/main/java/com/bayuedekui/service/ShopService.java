@@ -1,5 +1,6 @@
 package com.bayuedekui.service;
 
+import com.bayuedekui.dto.ImageHolder;
 import com.bayuedekui.dto.ShopExecution;
 import com.bayuedekui.entity.Shop;
 import com.bayuedekui.exceptions.ShopOperationException;
@@ -20,10 +21,10 @@ public interface ShopService {
     /**
      * 增加店铺信息的接口
      * @param shop
-     * @param fileName
+     * @param thumbnail
      * @return
      */
-     ShopExecution addShop(Shop shop, InputStream shopImgInputStream,String fileName);
+     ShopExecution addShop(Shop shop, ImageHolder thumbnail);
 
     /**
      * 通过店铺的id获取店铺的信息
@@ -36,5 +37,5 @@ public interface ShopService {
      * 更新店铺信息,包括对图片进行处理
      * @return
      */
-     ShopExecution modifyShop(Shop shop, InputStream shopImgInputStream, String fileName) throws ShopOperationException;
+     ShopExecution modifyShop(Shop shop, ImageHolder thumbnail) throws ShopOperationException;
 }

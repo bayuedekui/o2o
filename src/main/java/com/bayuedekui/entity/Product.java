@@ -2,6 +2,7 @@ package com.bayuedekui.entity;
 
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 商品实体(商品id,商品名称,商品描述,商品图片地址,正常价格,打折后价格,优先级,创建时间,最后修改时间,能用状态,指针)
@@ -17,10 +18,39 @@ public class Product {
     private Integer priority;
     private Date createTime;
     private Date lastEditTime;
+    //0.下架,1.在前端显示系统显示
     private Integer enableStatus;
     private Integer point;
     private int productCategoryId;
     private int shopId;
+
+    private List<ProductImg> productImgsList;
+    private ProductCategory productCategory;
+    private Shop shop;
+
+    public List<ProductImg> getProductImgsList() {
+        return productImgsList;
+    }
+
+    public void setProductImgsList(List<ProductImg> productImgsList) {
+        this.productImgsList = productImgsList;
+    }
+
+    public ProductCategory getPeoductCategory() {
+        return productCategory;
+    }
+
+    public void setPeoductCategory(ProductCategory peoductCategory) {
+        this.productCategory = peoductCategory;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
 
     public int getProductCategoryId() {
         return productCategoryId;

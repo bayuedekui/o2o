@@ -92,12 +92,11 @@ public class ShopDaoTest extends BaseTest {
     }
     
     @Test
-    @Ignore
     public void testUpdateShop(){
         Shop shop = new Shop();
        
        
-        
+//        shop.setShopId(47L);
         shop.setShopImg("0721");
        
         int effectedNum = shopDao.updateShop(shop);

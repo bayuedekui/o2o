@@ -10,6 +10,8 @@ public class ProductCategoryExecution {
 
     private String stateInfo;
 
+    private ProductCategory productCategory;
+
     private List<ProductCategory> productCategoryList;
 
     /**
@@ -28,10 +30,19 @@ public class ProductCategoryExecution {
     }
 
     /**
-     * 造作成功返回的构造器
+     * 造作成功返回商品类别列表的构造器
      */
     public void setProductCategoryList(ProductCategoryStateEnum stateEnum,List<ProductCategory> productCategoryList) {
         this.productCategoryList = productCategoryList;
+        this.stateInfo=stateEnum.getStateInfo();
+        this.state=stateEnum.getState();
+    }
+
+    /**
+     * 造作成功返回单个商品的构造器
+     */
+    public void setProductCategoryList(ProductCategoryStateEnum stateEnum,ProductCategory productCategory) {
+        this.productCategory = productCategory;
         this.stateInfo=stateEnum.getStateInfo();
         this.state=stateEnum.getState();
     }
@@ -46,5 +57,9 @@ public class ProductCategoryExecution {
 
     public List<ProductCategory> getProductCategoryList() {
         return productCategoryList;
+    }
+
+    public ProductCategory getProductCategory() {
+        return productCategory;
     }
 }

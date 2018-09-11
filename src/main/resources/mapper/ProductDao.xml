@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bayuedekui.dao.ProductDao">
+    <insert id="insertProduct" parameterType="com.bayuedekui.entity.Product"
+            useGeneratedKeys="true" keyProperty="productId" keyColumn="product_id">
+        insert into
+        tb_product(product_name,product_desc,img_addr,normal_price,
+        promotion_price,priority,create_time,last_edit_time,
+        enable_status,point,product_category_id,shop_id)
+        values
+        (#{productName},#{productDesc},#{imgAddr},#{normalPrice},
+        #{promotionPrice},#{priority},#{createTime},#{lastEditTime},
+        #{enableStatus},#{point},#{productCategoryId},#{shopId})
+    </insert>
+
+    <update id="updataProduct" parameterType="com.bayuedekui.entity.Product">
+        update tb_product
+        <set>
+            <if test="productName!=null">product_name=#{productName},</if>
+            <if test="productDesc!=null">product_desc=#{productDesc},</if>
+            <if test="imgAddr!=null">img_addr=#{imgAddr},</if>
+            <if test="normalPrice!=null">normal_price=#{normalPrice},</if>
+            <if test="promotionPrice!=null">promotion_price=#{promotionPrice}</if>
+            <if test="priority!=null">priotiry=#{priority}</if>
+            <if test="createTime!=null">create_time=#{create_time}</if>
+            <if test="lastEditTime!=null">last_edit_time=#{lastEditTime}</if>
+            <if test="enableStatus!=null">enable_status=#{enableStatus}</if>
+            <if test="point!=null">point=#{point}</if>
+            <if test="productCategoryId!=null">product_category_id=#{productCategoryName}</if>
+            <if test="shopId!=null">shop_id=#{shopId}</if>
+        </set>
+        where
+        product_id=#{productId}
+    </update>
+
+
+
+</mapper>

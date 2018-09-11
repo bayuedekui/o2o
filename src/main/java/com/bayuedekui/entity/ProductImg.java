@@ -12,6 +12,7 @@ public class ProductImg {
     private String imgDesc;
     private Integer priority;
     private Date createTime;
+    private Date lastEditTime;
     private Long productId;
 
     public Long getProductImgId() {
@@ -60,5 +61,13 @@ public class ProductImg {
 
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+
+    public Date getLastEditTime() {
+        return lastEditTime;
+    }
+
+    public void setLastEditTime(Date lastEditTime) {
+        this.lastEditTime = lastEditTime;
     }
 }

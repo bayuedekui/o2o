@@ -1,6 +1,7 @@
 package com.bayuedekui.service.impl;
 
 import com.bayuedekui.dao.ShopDao;
+import com.bayuedekui.dto.ImageHolder;
 import com.bayuedekui.dto.ShopExecution;
 import com.bayuedekui.entity.Shop;
 import com.bayuedekui.enums.ShopStateEnum;
@@ -49,13 +50,12 @@ public class ShopServiceImpl implements ShopService {
     /**
      * 向数据库中增加店铺信息(注册店铺)
      * @param shop
-     * @param shopImgInputStream
-     * @param fileName
+     * @param thumbnail
      * @return
      */
     @Override
     @Transactional
-    public ShopExecution addShop(Shop shop, InputStream shopImgInputStream, String fileName) {
+    public ShopExecution addShop(Shop shop, ImageHolder thumbnail) {
         if (shop == null) {
             return new ShopExecution(ShopStateEnum.NULL_SHOP);
         }
@@ -67,17 +67,17 @@ public class ShopServiceImpl implements ShopService {
             shop.setLastEditTime(new Date());
             //向库中插入数据库
             int effectedNum = shopDao.insertShop(shop);
-            System.out.println(shopImgInputStream);
+            System.out.println(thumbnail.getImage());
             System.out.println(effectedNum);
 
             if (effectedNum <= 0) {
                 throw new ShopOperationException("店铺创建失败");
             } else {
 
-                if (shopImgInputStream != null) {
+                if (thumbnail.getImage() != null) {
                     //存储图片
                     try {
-                        addShopImg(shop, shopImgInputStream, fileName);
+                        addShopImg(shop, thumbnail);
                     } catch (Exception e) {
                         throw new ShopOperationException("addShopImg errror:" + e.getMessage());
                     }
@@ -102,13 +102,12 @@ public class ShopServiceImpl implements ShopService {
     /**
      * 将上传的图片的路径设置好,并将路径存入shop表中的字段中去
      * @param shop
-     * @param shopImgInputStream
-     * @param fileName
+     * @param thumbnail
      */
-    private void addShopImg(Shop shop, InputStream shopImgInputStream, String fileName) {
+    private void addShopImg(Shop shop,ImageHolder thumbnail) {
         //获取shop图片目录的相对值路径
         String dest = PathUtil.getShopImagePath(shop.getShopId());    //获取相对路径
-        String shopImgAddr = ImageUtil.generateThumbnail(shopImgInputStream, fileName, dest);   //通过调用generateThumbnail方法构造出全部的存储路径,其中的方法里面还包括给图片加上水印
+        String shopImgAddr = ImageUtil.generateThumbnail(thumbnail.getImage(), thumbnail.getImageName(), dest);   //通过调用generateThumbnail方法构造出全部的存储路径,其中的方法里面还包括给图片加上水印
         shop.setShopImg(shopImgAddr);
     }
 
@@ -118,18 +117,18 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public ShopExecution modifyShop(Shop shop, InputStream shopImgInputStream, String fileName) throws ShopOperationException {
+    public ShopExecution modifyShop(Shop shop, ImageHolder thumbnail) throws ShopOperationException {
         if (shop == null && shop.getShopId() == null) {
             return new ShopExecution(ShopStateEnum.NULL_SHOP);
         }
         //1.判断是否需要处理图片
         try {
-            if (shopImgInputStream != null && fileName != null && !fileName.equals("")) {
+            if (thumbnail.getImage() != null && thumbnail.getImageName() != null && !thumbnail.getImageName().equals("")) {
                 Shop tempShop = shopDao.queryByShopId(shop.getShopId());
                 if (tempShop.getShopImg() != null) {
                     ImageUtil.deleteFilePath(tempShop.getShopImg());
                 }
-                addShopImg(shop, shopImgInputStream, fileName);
+                addShopImg(shop, thumbnail);
             }
             //2.更新店铺信息
             shop.setLastEditTime(new Date());
