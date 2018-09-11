@@ -1,5 +1,6 @@
 package com.bayuedekui.util;
 
+import com.bayuedekui.dto.ImageHolder;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 
@@ -23,16 +24,16 @@ public class ImageUtil {
      * @param targetAddr
      * @return
      */
-    public static String generateThumbnail(InputStream thumbnailInputStream, String fileName, String targetAddr){
+    public static String generateThumbnail(ImageHolder thumbnail, String targetAddr){
         String realFileName=getRandomFileName();    //获取真实文件名(即具体上传文件名)
-        String extension=getFileExtension(fileName);   //获取上传文案后缀名(是jpg结尾还是png结尾)
+        String extension=getFileExtension(thumbnail.getImageName());   //获取上传文案后缀名(是jpg结尾还是png结尾)
         makeDirPath(targetAddr);    //创建目录路径
         String realtiveAddr=targetAddr+realFileName+extension;  //获取相对路径,加上basePath就是绝对路径
         File dest=new File(PathUtil.getImgBasePath()+realtiveAddr); //新建绝对路径的文件
         
         //下面开始为图片加上水印
         try {
-            Thumbnails.of(thumbnailInputStream).size(200,200).
+            Thumbnails.of(thumbnail.getImage()).size(200,200).
                     watermark(Positions.BOTTOM_LEFT,ImageIO.read(new File("C:\\dddd\\o2o\\images\\watermark.jpg")),0.25f).
                     outputQuality(0.8f).toFile(dest);
         } catch (IOException e) {

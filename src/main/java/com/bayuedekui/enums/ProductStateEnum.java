@@ -1,7 +1,7 @@
 package com.bayuedekui.enums;
 
 public enum ProductStateEnum {
-    SUCCESS(1, "操作成功"), INNER_ERROR(-1001, "操作失败");
+    SUCCESS(1, "操作成功"), INNER_ERROR(-1001, "操作失败"),EMPTY(0,"数据为空");
 
     private int state;
     private String stateInfo;
