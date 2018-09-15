@@ -11,12 +11,14 @@ import com.bayuedekui.service.ProductService;
 import com.bayuedekui.util.ImageUtil;
 import com.bayuedekui.util.PathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductDao productDao;
@@ -30,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
      *
      * @param product
      * @param thumbnail
-     * @param productImgList
+     * @param productImgHolderList
      * @return
      * @throws ProductOperationException
      */
@@ -100,9 +102,14 @@ public class ProductServiceImpl implements ProductService {
         List<ProductImg> productImgList = new ArrayList<ProductImg>();
         //遍历图片一次去处理,并添加到ProductImg实体类里面
         for (ImageHolder productImgHolder : productImgHolderList) {
-            
-
+            String imgAddr=ImageUtil.generateNormalImg(productImgHolder,dest);
+            ProductImg productImg=new ProductImg();
+            productImg.setProductId(product.getProductId());
+            productImg.setCreateTime(new Date());
+            productImg.setImgAddr(imgAddr);
+            productImgList.add(productImg);
         }
+        
 
     }
 

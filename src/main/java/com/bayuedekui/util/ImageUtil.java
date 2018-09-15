@@ -3,6 +3,8 @@ package com.bayuedekui.util;
 import com.bayuedekui.dto.ImageHolder;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -14,13 +16,45 @@ import java.util.Random;
 
 
 public class ImageUtil {
+    Logger logger=LoggerFactory.getLogger(ImageUtil.class);
     private static String basePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
     private static final Random random = new Random();
 
     /**
-     * 将上传的图片存起来,将图片路径记录到数据库中
-     * @param thumbnailInputStream
+     * 处理详情图，并返回新生成图片的的相对路径
+     * @param thumbnail
+     * @param targetAddr
+     */
+    public static String generateNormalImg(ImageHolder thumbnail,String targetAddr){
+        //获取随机不重复的文件名
+        String realFileName=getRandomFileName();
+        //获取文件的扩展名，如png,jpg等
+        String extendFileName=getFileExtension(thumbnail.getImageName());
+        //如果文件目录不存在就创建出来,创建根本路径加上传进来的额外路径
+        makeDirPath(targetAddr);
+        //获取文件的相对路径
+        String relativeAddr=targetAddr+realFileName+extendFileName;
+        //将获取的文件保存到指定的位置
+        File dest=new File(PathUtil.getImgBasePath()+relativeAddr);
+        logger.debug("current complete adddr is:"+PathUtil.getImgBasePath()+relativeAddr);
+        //调用Thumbnail的jar包中的方法，为图片增加水印
+        try {
+            Thumbnails.of(thumbnail.getImage())
+                    .size(337,640)
+                    .watermark(Positions.BOTTOM_RIGHT,ImageIO.read(new File("C:\\dddd\\o2o\\images\\watermark.jpg")),0.25f)
+                    .outputQuality(0.8f).toFile(dest);
+        }catch (Exception e){
+            logger.error("add waterMark error:"+e.getMessage());
+            throw new RuntimeException("创建缩略图失败："+e.getMessage());
+        }
+        
+        return PathUtil.getImgBasePath()+relativeAddr;
+    }
+    
+    /**
+     * 将上传的图片存到某个目录下,将图片路径记录到数据库中
+     * @param thumbnail
      * @param targetAddr
      * @return
      */
@@ -31,16 +65,15 @@ public class ImageUtil {
         String realtiveAddr=targetAddr+realFileName+extension;  //获取相对路径,加上basePath就是绝对路径
         File dest=new File(PathUtil.getImgBasePath()+realtiveAddr); //新建绝对路径的文件
         
-        //下面开始为图片加上水印
+        //调用Thumbnail.of开始为图片加上水印
         try {
             Thumbnails.of(thumbnail.getImage()).size(200,200).
                     watermark(Positions.BOTTOM_LEFT,ImageIO.read(new File("C:\\dddd\\o2o\\images\\watermark.jpg")),0.25f).
                     outputQuality(0.8f).toFile(dest);
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-
-        }
+           logger.error(e.toString());
+           throw new RuntimeException("创建缩略图失败："+e.toString());
+        } 
         
         return PathUtil.getImgBasePath()+realtiveAddr;
     }
@@ -58,7 +91,7 @@ public class ImageUtil {
 
     /**
      * 获取上传的文件的拓展名(jpg/png)
-     * @param cFile
+     * @param fileName
      * @return
      */
     public static String getFileExtension(String  fileName){
