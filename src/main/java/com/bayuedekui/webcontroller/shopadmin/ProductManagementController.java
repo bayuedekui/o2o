@@ -8,7 +8,6 @@ import com.bayuedekui.enums.ProductStateEnum;
 import com.bayuedekui.service.ProductService;
 import com.bayuedekui.util.CodeUtil;
 import com.bayuedekui.util.HttpServletRequestUtil;
-import com.bayuedekui.util.ImageUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
