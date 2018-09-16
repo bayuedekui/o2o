@@ -16,7 +16,7 @@ import java.util.Random;
 
 
 public class ImageUtil {
-    Logger logger=LoggerFactory.getLogger(ImageUtil.class);
+    static Logger logger=LoggerFactory.getLogger(ImageUtil.class);
     private static String basePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
     private static final Random random = new Random();
@@ -26,7 +26,7 @@ public class ImageUtil {
      * @param thumbnail
      * @param targetAddr
      */
-    public static String generateNormalImg(ImageHolder thumbnail,String targetAddr){
+    public static String generateNormalImg(ImageHolder thumbnail,String targetAddr){    
         //获取随机不重复的文件名
         String realFileName=getRandomFileName();
         //获取文件的扩展名，如png,jpg等
@@ -42,8 +42,8 @@ public class ImageUtil {
         try {
             Thumbnails.of(thumbnail.getImage())
                     .size(337,640)
-                    .watermark(Positions.BOTTOM_RIGHT,ImageIO.read(new File("C:\\dddd\\o2o\\images\\watermark.jpg")),0.25f)
-                    .outputQuality(0.8f).toFile(dest);
+                    .watermark(Positions.BOTTOM_RIGHT,ImageIO.read(new File("D:\\EEEEEEEEEEEEEEEEEEEEEEEEEE\\o2o\\images\\watermark.jpg")),0.25f)
+                    .outputQuality(0.9f).toFile(dest);
         }catch (Exception e){
             logger.error("add waterMark error:"+e.getMessage());
             throw new RuntimeException("创建缩略图失败："+e.getMessage());
@@ -68,7 +68,7 @@ public class ImageUtil {
         //调用Thumbnail.of开始为图片加上水印
         try {
             Thumbnails.of(thumbnail.getImage()).size(200,200).
-                    watermark(Positions.BOTTOM_LEFT,ImageIO.read(new File("C:\\dddd\\o2o\\images\\watermark.jpg")),0.25f).
+                    watermark(Positions.BOTTOM_LEFT,ImageIO.read(new File("D:\\EEEEEEEEEEEEEEEEEEEEEEEEEE\\o2o\\images\\watermark.jpg")),0.25f).
                     outputQuality(0.8f).toFile(dest);
         } catch (IOException e) {
            logger.error(e.toString());

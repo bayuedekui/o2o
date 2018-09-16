@@ -36,11 +36,11 @@ public class Product {
         this.productImgsList = productImgsList;
     }
 
-    public ProductCategory getPeoductCategory() {
+    public ProductCategory getProductCategory() {
         return productCategory;
     }
 
-    public void setPeoductCategory(ProductCategory peoductCategory) {
+    public void setProductCategory(ProductCategory peoductCategory) {
         this.productCategory = peoductCategory;
     }
 

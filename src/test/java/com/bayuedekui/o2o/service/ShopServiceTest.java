@@ -1,6 +1,7 @@
 package com.bayuedekui.o2o.service;
 
 import com.bayuedekui.dao.ShopDao;
+import com.bayuedekui.dto.ImageHolder;
 import com.bayuedekui.dto.ShopExecution;
 import com.bayuedekui.entity.Area;
 import com.bayuedekui.entity.Shop;
@@ -68,9 +69,10 @@ public class ShopServiceTest extends BaseTest {
         shop.setAdvice("审核中");
         shop.setArea(area);
         shop.setShopCategory(sc);
-        File shopImg=new File("C:\\dddd\\o2o\\images\\2017060523302118864.jpg");
-        InputStream is=new FileInputStream(shopImg);
-        ShopExecution se = shopService.addShop(shop, is,shopImg.getName());
+        File shopImgFile=new File("C:\\dddd\\o2o\\images\\2017060523302118864.jpg");
+        InputStream is=new FileInputStream(shopImgFile);
+        ImageHolder thumbnail=new ImageHolder(shopImgFile.getName(),is);
+        ShopExecution se = shopService.addShop(shop, thumbnail);
         assertEquals(ShopStateEnum.CHECK.getState(),se.getState());
 //        shopDao.insertShop(shop);
         

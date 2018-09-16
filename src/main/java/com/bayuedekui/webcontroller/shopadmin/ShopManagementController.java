@@ -1,5 +1,6 @@
 package com.bayuedekui.webcontroller.shopadmin;
 
+import com.bayuedekui.dto.ImageHolder;
 import com.bayuedekui.dto.ShopExecution;
 import com.bayuedekui.entity.Area;
 import com.bayuedekui.entity.PersonInfo;
@@ -199,9 +200,10 @@ public class ShopManagementController {
             ShopExecution se;  //电泳service层向数据库中插入店铺信息
             try {
                 if (shopImg == null) {
-                    se = shopService.modifyShop(shop, null, null);
+                    se = shopService.modifyShop(shop, null);
                 } else {
-                    se = shopService.modifyShop(shop, shopImg.getInputStream(), shopImg.getOriginalFilename());
+                    
+                    se = shopService.modifyShop(shop, new ImageHolder(shopImg.getOriginalFilename(),shopImg.getInputStream()));
                 }
                 if (se.getState() == ShopStateEnum.SUCCESS.getState()) {
                     modelMap.put("success", true);   //返回注册成功的标记
@@ -267,7 +269,7 @@ public class ShopManagementController {
 
             ShopExecution se;  //电泳service层向数据库中插入店铺信息
             try {
-                se = shopService.addShop(shop, shopImg.getInputStream(), shopImg.getOriginalFilename());
+                se = shopService.addShop(shop, new ImageHolder(shopImg.getOriginalFilename(),shopImg.getInputStream()));
                 if (se.getState() == ShopStateEnum.CHECK.getState()) {
                     modelMap.put("success", true);   //返回注册成功的标记
                 } else {

@@ -1,6 +1,7 @@
 package com.bayuedekui.o2o.dao;
 
 import com.bayuedekui.dao.ShopDao;
+import com.bayuedekui.dto.ImageHolder;
 import com.bayuedekui.dto.ShopExecution;
 import com.bayuedekui.entity.Area;
 import com.bayuedekui.entity.PersonInfo;
@@ -47,7 +48,7 @@ public class ShopDaoTest extends BaseTest {
         shop.setShopName("0805修改后端而店铺的名字");
         File shopImg=new File("C:\\dddd\\o2o\\images\\dabai.jpg");
         InputStream is=new FileInputStream(shopImg);
-        ShopExecution shopExecution=shopService.modifyShop(shop,is,"dabai.jpg");
+        ShopExecution shopExecution=shopService.modifyShop(shop,new ImageHolder("dabai.jpg",is));
         System.out.println("新的图片的地址为:"+shopExecution.getShop().getShopImg());
     }
     

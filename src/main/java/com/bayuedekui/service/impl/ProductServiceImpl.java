@@ -1,6 +1,7 @@
 package com.bayuedekui.service.impl;
 
 import com.bayuedekui.dao.ProductDao;
+import com.bayuedekui.dao.ProductImgDao;
 import com.bayuedekui.dto.ImageHolder;
 import com.bayuedekui.dto.ProductExcution;
 import com.bayuedekui.entity.Product;
@@ -24,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductDao productDao;
 
     @Autowired
-    private ProductImg productImg;
+    private ProductImgDao productImgDao;
 
 
     /**
@@ -108,6 +109,19 @@ public class ProductServiceImpl implements ProductService {
             productImg.setCreateTime(new Date());
             productImg.setImgAddr(imgAddr);
             productImgList.add(productImg);
+        }
+        
+        //如果确实有图片需要添加,就执行批量添加操作
+        if(productImgList.size()>0){
+            try {
+                int effectNum=productImgDao.batchInsertProductImg(productImgList);
+                if(effectNum<0){
+                    throw new ProductOperationException("创建商品详情图失败");
+                }
+            }catch(Exception e){
+                throw new ProductOperationException("创建商品详情图失败"+e.toString());
+            }
+            
         }
         
 
