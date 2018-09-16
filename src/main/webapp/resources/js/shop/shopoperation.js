@@ -1,7 +1,8 @@
 /**
  * 
- * 
+ * 店铺操作相关的js 
  */
+
  $(function(){
      var shopId=getQueryString('shopId');
      var isEdit=shopId?true:false;  //如果传入了shopId那么表示是编辑店铺,不穿shopId表示是注册店铺
