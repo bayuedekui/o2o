@@ -21,7 +21,7 @@ $(function () {
     } else {
         //获取商品分类列表
         getCategory();
-        prodcuctPostUrl = "/o2o/shopadmin/addproduct";
+        productPostUrl = "/o2o/shopadmin/addproduct";
     }
 
 
@@ -83,7 +83,7 @@ $(function () {
     /**
      * 针对商品详情控件组，若该控件组的最后一个元素发生了变化（即上传了图片），且控件书没有达到六个时，就生成一个新的上传控件，达到六个时就不再生成新的控件
      */
-    $(".detail-img-div").on('change', 'detail-img:last-child', function () {
+    $(".detail-img-div").on('change','.detail-img:last-child', function () {
         if ($(".detail-img").length < 6) {
             $("#detail-img").append('<input type="file" class="detail-img">');
         }
@@ -98,31 +98,32 @@ $(function () {
         //创建商品json对象，并从表单中获取对应值，构造成json字串
         var product = {};
         product.productName = $("#product-name").val();
-        product.productCategoryDesc = $("#product-desc").val();
+        product.productDesc = $("#product-desc").val();
         product.priority = $("#priority").val();
         product.normalPrice = $("#product-normalPrice").val();
         product.promotionPrice = $("#product-promotionPrice").val();
 
         //获取商品选定的类别值
-        product.productCategoryId = {
-            productCategoryId: $("#product-category").find("option").not(function () {
+        product.productCategoryId = $("#product-category").find("option").not(
+            function () {
                 return !this.selected;
-            }).data('value')
-        };
+            }).data('value');
+       
         product.productId = productId;
 
         //获取缩略图文件流
         var thumbnail = $("#small-img")[0].files[0];
         //生成表单对象，用于接收参数并传递给后台
-        var formData = new formData();
+        var formData = new FormData();
         formData.append("thumbnail", thumbnail);
 
         //遍历商品详情图控件，获取里面的文件流
-        $(".detail-img").map(function (item, index) {
+            $(".detail-img").map(function (index,item) {
             //判断该控件是否选择了文件
-            if ($(".detail-img")[index].file.length > 0) {
+                alert(index);
+            if ($('.detail-img')[index].files.length > 0) { 
                 //将第i个文件流赋值给key为productImg的表单键值对里面
-                formData.append("productImg" + index, $("#detail-img")[index].file[0]);
+                formData.append("productImg" + index, $(".detail-img")[index].files[0]);
             }
         });
 
@@ -135,14 +136,14 @@ $(function () {
             $.toast("验证码不能为空");
             return;
         }
-        formData.append("vertifyCodeActual",vertifyCodeInput);
+        formData.append("verifyCodeInput",vertifyCodeInput);
         
         
         //formData构造好了后，将数据传入到后台供后台处理
         $.ajax({
             url:productPostUrl,
             type:'POST',
-            data:formDate,
+            data:formData,
             contentType:false,
             processData:false,
             cache:false,
