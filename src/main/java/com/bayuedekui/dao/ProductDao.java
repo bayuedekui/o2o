@@ -36,12 +36,12 @@ public interface ProductDao {
      * @param productId
      * @return
      */
-    Product queryProductById(@Param("productId") Long productId);
+    Product queryProductById(long productId);
 
     /**
      * 根据传入的producId删除数据库中的商品记录
      * @param productId
      * @return
      */
-    int deleteProduct(@Param("productId") Long productId);
+    int deleteProduct(long productId);
 }

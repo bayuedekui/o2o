@@ -105,10 +105,8 @@ public class ProductManagementController {
             try {
                 //从session中获取shopId然后赋值给product,减少对前端数据的依赖
                 Shop currentShop = (Shop) request.getSession().getAttribute("currentShop");
-                Shop shop = new Shop();
-                shop.setShopId(currentShop.getShopId());
-                product.setShop(shop);
-                product.setShopId(Integer.parseInt(shop.getShopId().toString()));
+                product.setShop(currentShop);
+                product.setShopId(Integer.parseInt(currentShop.getShopId().toString()));
                 //执行添加操作
                 ProductExcution pe = productService.addProduct(product, thumbnail, productImgList);
                 if (pe.getState() == ProductStateEnum.SUCCESS.getState()) {

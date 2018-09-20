@@ -24,16 +24,16 @@ public class Product {
     private int productCategoryId;
     private int shopId;
 
-    private List<ProductImg> productImgsList;
+    private List<ProductImg> productImgList;
     private ProductCategory productCategory;
     private Shop shop;
 
     public List<ProductImg> getProductImgsList() {
-        return productImgsList;
+        return productImgList;
     }
 
     public void setProductImgsList(List<ProductImg> productImgsList) {
-        this.productImgsList = productImgsList;
+        this.productImgList = productImgsList;
     }
 
     public ProductCategory getProductCategory() {

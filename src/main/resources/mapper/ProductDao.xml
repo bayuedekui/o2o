@@ -3,6 +3,36 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bayuedekui.dao.ProductDao">
+    <resultMap id="productMap" type="com.bayuedekui.entity.Product">
+        <id column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_desc" property="productDesc"/>
+        <result column="img_addr" property="imgAddr"/>
+        <result column="normal_price" property="normalPrice"/>
+        <result column="promotion_price" property="promotionPrice"/>
+        <result column="priority" property="priority"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_edit_time" property="lastEditTime"/>
+        <result column="enable_status" property="enableStatus"/>
+        <association property="productCategory" column="product_category_id">
+            <id column="product_category_id" property="productCategoryId"/>
+            <result column="product_category_name" property="productCategoryName"/>
+        </association>
+        <association property="shop" column="shopId">
+            <id column="shop_id" property="shopId"/>
+            <result column="shop_name" property="shopName"/>
+            <result column="owner_id" property="ownerId"/>
+        </association>
+        <collection property="productImgList" column="product_id" ofType="com.bayuedekui.entity.ProductImg">
+            <id column="product_img_id" property="productImgId"/>
+            <result column="detail_img" property="imgAddr"/>
+            <result column="img_desc" property="imgDesc"/>
+            <result column="priority" property="priority"/>
+            <result column="create_time" property="CreateTime"/>
+            <result column="product_id" property="productId"/>
+        </collection>
+    </resultMap>
+    
     <insert id="insertProduct" parameterType="com.bayuedekui.entity.Product"
             useGeneratedKeys="true" keyProperty="productId" keyColumn="product_id">
         insert into
@@ -34,6 +64,8 @@
         where
         product_id=#{productId}
     </update>
+    
+    
 
 
 

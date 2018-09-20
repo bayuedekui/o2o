@@ -68,7 +68,7 @@ public class ImageUtil {
         //调用Thumbnail.of开始为图片加上水印
         try {
             Thumbnails.of(thumbnail.getImage()).size(200,200).
-                    watermark(Positions.BOTTOM_LEFT,ImageIO.read(new File("D:\\EEEEEEEEEEEEEEEEEEEEEEEEEE\\o2o\\images\\watermark.jpg")),0.25f).
+                    watermark(Positions.BOTTOM_CENTER,ImageIO.read(new File("D:\\EEEEEEEEEEEEEEEEEEEEEEEEEE\\o2o\\images\\watermark.jpg")),0.25f).
                     outputQuality(0.8f).toFile(dest);
         } catch (IOException e) {
            logger.error(e.toString());
