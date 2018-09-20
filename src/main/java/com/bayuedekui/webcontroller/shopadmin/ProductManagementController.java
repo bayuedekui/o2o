@@ -108,6 +108,7 @@ public class ProductManagementController {
                 Shop shop = new Shop();
                 shop.setShopId(currentShop.getShopId());
                 product.setShop(shop);
+                product.setShopId(Integer.parseInt(shop.getShopId().toString()));
                 //执行添加操作
                 ProductExcution pe = productService.addProduct(product, thumbnail, productImgList);
                 if (pe.getState() == ProductStateEnum.SUCCESS.getState()) {
