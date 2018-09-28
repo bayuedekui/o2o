@@ -14,11 +14,11 @@
         <result column="create_time" property="createTime"/>
         <result column="last_edit_time" property="lastEditTime"/>
         <result column="enable_status" property="enableStatus"/>
-        <association property="productCategory" column="product_category_id">
+        <association property="productCategory" column="product_category_id" javaType="com.bayuedekui.entity.ProductCategory">
             <id column="product_category_id" property="productCategoryId"/>
             <result column="product_category_name" property="productCategoryName"/>
         </association>
-        <association property="shop" column="shopId">
+        <association property="shop" column="shopId" javaType="com.bayuedekui.entity.Shop">
             <id column="shop_id" property="shopId"/>
             <result column="shop_name" property="shopName"/>
             <result column="owner_id" property="ownerId"/>
@@ -33,6 +33,40 @@
         </collection>
     </resultMap>
     
+    <select id="queryProductById" resultMap="productMap" parameterType="Long">
+        select 
+        p.product_id,
+        p.product_name,
+        p.product_desc,
+        p.img_addr,
+        p.normal_price,
+        p.promotion_price,
+        p.priority,
+        p.create_time,
+        p.last_edit_time,
+        p.enable_status,
+        p.point,
+        p.product_category_id,
+        p.shop_id,
+        pm.product_img_id,
+        pm.img_addr as detail_img,
+        pm.img_desc,
+        pm.priority,
+        pm.create_time,
+        pm.last_edit_time,
+        pm.product_id
+        from 
+        tb_product p
+        left join 
+        tb_product_img pm
+        on 
+        p.product_id=pm.product_id
+        where 
+        p.product_id=#{productId}
+        order by 
+        pm.priority desc
+    </select>
+    
     <insert id="insertProduct" parameterType="com.bayuedekui.entity.Product"
             useGeneratedKeys="true" keyProperty="productId" keyColumn="product_id">
         insert into
@@ -45,24 +79,23 @@
         #{enableStatus},#{point},#{productCategoryId},#{shopId})
     </insert>
 
-    <update id="updataProduct" parameterType="com.bayuedekui.entity.Product">
+    <update id="updataProduct" parameterType="com.bayuedekui.entity.Product"
+    keyProperty="product_id" useGeneratedKeys="true">
         update tb_product
-        <set>
+        <set>  
             <if test="productName!=null">product_name=#{productName},</if>
             <if test="productDesc!=null">product_desc=#{productDesc},</if>
             <if test="imgAddr!=null">img_addr=#{imgAddr},</if>
             <if test="normalPrice!=null">normal_price=#{normalPrice},</if>
             <if test="promotionPrice!=null">promotion_price=#{promotionPrice}</if>
             <if test="priority!=null">priotiry=#{priority}</if>
-            <if test="createTime!=null">create_time=#{create_time}</if>
             <if test="lastEditTime!=null">last_edit_time=#{lastEditTime}</if>
             <if test="enableStatus!=null">enable_status=#{enableStatus}</if>
-            <if test="point!=null">point=#{point}</if>
-            <if test="productCategoryId!=null">product_category_id=#{productCategoryName}</if>
-            <if test="shopId!=null">shop_id=#{shopId}</if>
+            <if test="productCategory!=null and productCategoryId!=null">product_category_id=#{productCategoryName}</if>
         </set>
         where
         product_id=#{productId}
+        and shop_id=#{shop.shopId}
     </update>
     
     

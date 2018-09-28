@@ -1,5 +1,6 @@
 package com.bayuedekui.dao;
 
+import com.bayuedekui.entity.Product;
 import com.bayuedekui.entity.ProductImg;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +22,11 @@ public interface ProductImgDao {
      * @return
      */
     int deleteProductImgByProductId(long product);
+
+    /**
+     * 根据productId查询某个商品的存放的图片信息
+     * @param productId
+     * @return
+     */
+    List<ProductImg> queryProductImgListByProductId(Long productId);
 }

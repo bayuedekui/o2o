@@ -7,6 +7,7 @@ import com.bayuedekui.dto.ProductExcution;
 import com.bayuedekui.entity.Product;
 import com.bayuedekui.entity.ProductImg;
 import com.bayuedekui.enums.ProductStateEnum;
+import com.bayuedekui.exceptions.ProductCategoryOperationException;
 import com.bayuedekui.exceptions.ProductOperationException;
 import com.bayuedekui.service.ProductService;
 import com.bayuedekui.util.ImageUtil;
@@ -75,6 +76,36 @@ public class ProductServiceImpl implements ProductService {
         } else {
             return new ProductExcution(ProductStateEnum.EMPTY);
         }
+    }
+
+    /**
+     * 根据商品id查询商品
+     * @param productId
+     * @return
+     */
+    @Override
+    public Product getProductById(long productId) {
+        return productDao.queryProductById(productId);
+    }
+
+    /**
+     * 对商品进行修改
+     * @param product
+     * @param thumbnail
+     * @param productImgList
+     * @return
+     * @throws ProductCategoryOperationException
+     */
+    @Override
+    @Transactional
+    //1.若缩略图参数有值,则处理缩略图
+    //若原先存在缩略图,则先删除再添加新图,之后去缩略图相对路径并赋值给product
+    //2.若商品详情图有值,则对商品详情图做同样的操作
+    //3.若详情图和缩略图其中一个有变化,则将tb_product_img表中记录全部清除
+    //4.更新tb_product_img表记录
+    public ProductExcution modifyProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgList) throws ProductCategoryOperationException {
+        
+        return null;
     }
 
 
