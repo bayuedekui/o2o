@@ -1,12 +1,11 @@
 package com.bayuedekui.service;
 
 import com.bayuedekui.dto.ImageHolder;
-import com.bayuedekui.dto.ProductExcution;
+import com.bayuedekui.dto.ProductExecution;
 import com.bayuedekui.entity.Product;
 import com.bayuedekui.exceptions.ProductCategoryOperationException;
 import com.bayuedekui.exceptions.ProductOperationException;
 
-import java.io.InputStream;
 import java.util.List;
 
 public interface ProductService {
@@ -19,7 +18,7 @@ public interface ProductService {
      * @return
      * @throws ProductOperationException
      */
-    ProductExcution addProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgList) throws ProductOperationException;
+    ProductExecution addProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgList) throws ProductOperationException;
 
     /**
      * 根据商品的id
@@ -36,5 +35,5 @@ public interface ProductService {
      * @return
      * @throws ProductCategoryOperationException
      */
-    ProductExcution modifyProduct(Product product,ImageHolder thumbnail,List<ImageHolder> productImgList) throws ProductCategoryOperationException;
+    ProductExecution modifyProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgList) throws ProductCategoryOperationException;
 }

@@ -1,7 +1,7 @@
 package com.bayuedekui.webcontroller.shopadmin;
 
 import com.bayuedekui.dto.ImageHolder;
-import com.bayuedekui.dto.ProductExcution;
+import com.bayuedekui.dto.ProductExecution;
 import com.bayuedekui.entity.Product;
 import com.bayuedekui.entity.Shop;
 import com.bayuedekui.enums.ProductStateEnum;
@@ -108,7 +108,7 @@ public class ProductManagementController {
                 product.setShop(currentShop);
                 product.setShopId(Integer.parseInt(currentShop.getShopId().toString()));
                 //执行添加操作
-                ProductExcution pe = productService.addProduct(product, thumbnail, productImgList);
+                ProductExecution pe = productService.addProduct(product, thumbnail, productImgList);
                 if (pe.getState() == ProductStateEnum.SUCCESS.getState()) {
                     modelMap.put("success", true);
                 } else {

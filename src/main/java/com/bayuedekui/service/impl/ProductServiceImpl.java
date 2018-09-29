@@ -3,7 +3,7 @@ package com.bayuedekui.service.impl;
 import com.bayuedekui.dao.ProductDao;
 import com.bayuedekui.dao.ProductImgDao;
 import com.bayuedekui.dto.ImageHolder;
-import com.bayuedekui.dto.ProductExcution;
+import com.bayuedekui.dto.ProductExecution;
 import com.bayuedekui.entity.Product;
 import com.bayuedekui.entity.ProductImg;
 import com.bayuedekui.enums.ProductStateEnum;
@@ -40,7 +40,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     @Transactional
-    public ProductExcution addProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgHolderList) throws ProductOperationException {
+    public ProductExecution addProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgHolderList) throws ProductOperationException {
         //1.处理缩略图,获取缩略图的相对路径并赋值给product
         //2.往tb_product表中写入商品信息,并获取product_id
         //3.结合product_id批量处理商品详情图
@@ -72,9 +72,9 @@ public class ProductServiceImpl implements ProductService {
 
             }
 
-            return new ProductExcution(ProductStateEnum.SUCCESS, product);
+            return new ProductExecution(ProductStateEnum.SUCCESS, product);
         } else {
-            return new ProductExcution(ProductStateEnum.EMPTY);
+            return new ProductExecution(ProductStateEnum.EMPTY);
         }
     }
 
@@ -103,7 +103,7 @@ public class ProductServiceImpl implements ProductService {
     //2.若商品详情图有值,则对商品详情图做同样的操作
     //3.若详情图和缩略图其中一个有变化,则将tb_product_img表中记录全部清除
     //4.更新tb_product_img表记录
-    public ProductExcution modifyProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgList) throws ProductCategoryOperationException {
+    public ProductExecution modifyProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgList) throws ProductCategoryOperationException {
         //空值判断
         if(product!=null&&product.getShop()!=null&&product.getShop().getShopId()!=null){
             //给商品设置最后修改时间
@@ -122,15 +122,35 @@ public class ProductServiceImpl implements ProductService {
                 deleteProductImgList(product.getProductId());
                 addProductImgList(product,productImgList);
             }
+            
+            try {
+                //开始更新商品信息
+                int effectNum = productDao.updataProduct(product);
+                if(effectNum<=0){
+                    throw new ProductOperationException("更新商品信息失败");
+                }
+                return new ProductExecution(ProductStateEnum.SUCCESS,product);
+            }catch(Exception e){
+                throw new ProductOperationException("更新商品信息失败"+e.getMessage());
+            }
+        }else{
+            return new ProductExecution(ProductStateEnum.EMPTY);
         }
-        return null;
     }
 
     /**
      * 删除tb_product_img表中的属于一个商品的数据
      * @param productId
      */
-    public void deleteProductImgList(long productId){
+    private void deleteProductImgList(long productId){
+        //根据productId获取原来的图片
+        List<ProductImg> productImgList = productImgDao.queryProductImgListByProductId(productId);
+        //干掉原来的图片
+        for(ProductImg productImg:productImgList){
+            //将之前每一张的图片或者路径删除掉
+            ImageUtil.deleteFileOrPath(productImg.getImgAddr());
+        }
+        //将tb_product_img中的相关图片记录删掉
         productImgDao.deleteProductImgByProductId(productId);
     }
 

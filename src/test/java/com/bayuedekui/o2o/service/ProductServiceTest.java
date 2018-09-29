@@ -1,7 +1,7 @@
 package com.bayuedekui.o2o.service;
 
 import com.bayuedekui.dto.ImageHolder;
-import com.bayuedekui.dto.ProductExcution;
+import com.bayuedekui.dto.ProductExecution;
 import com.bayuedekui.entity.Product;
 import com.bayuedekui.entity.ProductCategory;
 import com.bayuedekui.entity.Shop;
@@ -55,7 +55,7 @@ public class ProductServiceTest extends BaseTest {
         productImgList.add(new ImageHolder(productImg1.getName(),is1));
         productImgList.add(new ImageHolder(productImg2.getName(),is2));
         //添加商品并且验证（包括往productImg数据表里面添加内容）
-        ProductExcution pe = productService.addProduct(product,thumbnail,productImgList);
+        ProductExecution pe = productService.addProduct(product,thumbnail,productImgList);
         Assert.assertEquals(ProductStateEnum.SUCCESS.getState(),pe.getState());
     }
 }
