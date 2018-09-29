@@ -110,10 +110,10 @@ public class ImageUtil {
     }
 
     /**
-     * storePath如果是文件路径还是目录路径,如果时文件路径则删除文件,如果是目录则删除该目录下的所有文件
+     * storePath如果是文件路径还是目录路径,如果是文件路径则删除文件,如果是目录则删除该目录下的所有文件
      * @param storePath
      */
-    public static void deleteFilePath(String storePath){
+    public static void deleteFileOrPath(String storePath){
         File fileOrPath=new File(PathUtil.getImgBasePath()+storePath);
         if(fileOrPath.exists()){
             if(fileOrPath.isDirectory()){

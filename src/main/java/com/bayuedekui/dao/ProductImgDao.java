@@ -18,10 +18,10 @@ public interface ProductImgDao {
 
     /**
      * 删除指定商品下的所有详情图
-     * @param product
+     * @param productId
      * @return
      */
-    int deleteProductImgByProductId(long product);
+    int deleteProductImgByProductId(long productId);
 
     /**
      * 根据productId查询某个商品的存放的图片信息

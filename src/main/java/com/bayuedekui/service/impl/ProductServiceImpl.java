@@ -104,10 +104,35 @@ public class ProductServiceImpl implements ProductService {
     //3.若详情图和缩略图其中一个有变化,则将tb_product_img表中记录全部清除
     //4.更新tb_product_img表记录
     public ProductExcution modifyProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgList) throws ProductCategoryOperationException {
-        
+        //空值判断
+        if(product!=null&&product.getShop()!=null&&product.getShop().getShopId()!=null){
+            //给商品设置最后修改时间
+            product.setLastEditTime(new Date());
+            //如果商品缩略图不为空且原有缩略图不为空则删除原有图并添加
+            if(thumbnail!=null){
+                //先获取一遍原来的信息,因为原来的存在图片地址
+                Product tempProduct = productDao.queryProductById(product.getProductId());
+                if(tempProduct.getImgAddr()!=null){
+                    ImageUtil.deleteFileOrPath(tempProduct.getImgAddr());
+                }
+                addThumbnail(product,thumbnail);
+            }
+            //如果有新存入的商品详情图,则将原来删除,并添加新的图片
+            if(productImgList!=null&&productImgList.size()>0){
+                deleteProductImgList(product.getProductId());
+                addProductImgList(product,productImgList);
+            }
+        }
         return null;
     }
 
+    /**
+     * 删除tb_product_img表中的属于一个商品的数据
+     * @param productId
+     */
+    public void deleteProductImgList(long productId){
+        productImgDao.deleteProductImgByProductId(productId);
+    }
 
     /**
      * 添加缩略图
