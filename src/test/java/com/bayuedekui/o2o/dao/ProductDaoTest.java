@@ -80,8 +80,8 @@ public class ProductDaoTest extends BaseTest {
 
         //查询productId为1的商品信息并校验返回的详情图实例列表的size
         Product product = productDao.queryProductById(productId);
-        Assert.assertEquals(2, product.getProductImgsList().size());
-        System.out.println("详情图的列表大小为:" + product.getProductImgsList().size());
+        Assert.assertEquals(2, product.getProductImgList().size());
+        System.out.println("详情图的列表大小为:" + product.getProductImgList().size());
 
         //删除两个新增的商品详情图实例
         effectNum = productImgDao.deleteProductImgByProductId(productId);

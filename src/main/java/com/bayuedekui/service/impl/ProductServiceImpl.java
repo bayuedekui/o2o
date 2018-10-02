@@ -46,9 +46,9 @@ public class ProductServiceImpl implements ProductService {
         int count = productDao.queryProductCount(productCondition);
 
         ProductExecution pe = new ProductExecution();
-        pe.setProductList(productList);
+        pe.setProductList(productList); 
         pe.setCount(count);
-        return null;
+        return pe;
     }
 
     /**

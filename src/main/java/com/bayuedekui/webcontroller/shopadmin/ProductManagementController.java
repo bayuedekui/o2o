@@ -1,5 +1,6 @@
 package com.bayuedekui.webcontroller.shopadmin;
 
+import ch.qos.logback.core.joran.util.StringToObjectConverter;
 import com.bayuedekui.dto.ImageHolder;
 import com.bayuedekui.dto.ProductExecution;
 import com.bayuedekui.entity.Product;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.omg.PortableInterceptor.SUCCESSFUL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.plaf.multi.MultiInternalFrameUI;
 import java.io.IOException;
@@ -42,6 +45,64 @@ public class ProductManagementController {
     //支持上传商品详情图的最大数量
     public static final int IMAGEFILE_SIZE = 6;
 
+    @RequestMapping(value = "/getproductlistbyshop",method = RequestMethod.GET)
+    @ResponseBody
+    private Map<String,Object> getProductListByShop(HttpServletRequest request){
+        Map<String, Object> modelMap = new HashMap<>();
+        //获取前台传过来的页码
+        int pageIndex = HttpServletRequestUtil.getInt(request, "pageIndex");
+        int pageSize = HttpServletRequestUtil.getInt(request, "pageSize");
+        
+        //从session获取店铺信息,主要获取shopId
+        Shop currentShop = (Shop) request.getSession().getAttribute("currentShop");
+        
+        //空值判断
+        if(pageSize>-1&&pageIndex>-1&&(currentShop!=null)&&currentShop.getShopId()!=null){
+            //根据传入的查询条件,包括是否需要从某个商品类别以及模糊查询商品的名字去筛选店铺下的商品
+            //筛选的条件可进行排列组合
+            long productCategoryId = HttpServletRequestUtil.getLong(request, "productCategoryId");
+            String productName = HttpServletRequestUtil.getString(request, "productName");
+            Product productCondition=compactProductCondition(currentShop.getShopId(),productCategoryId,productName);
+            
+            //传入查询条件以及分页信息进行查询,返回相应商品列表以及总数
+            ProductExecution pe = productService.getProductList(productCondition, pageIndex, pageSize);
+            modelMap.put("productList",pe.getProductList());
+            modelMap.put("count", pe.getCount());
+            modelMap.put("success", true);
+        }else{
+            modelMap.put("success", false);
+            modelMap.put("errMsg", "empty pageSize or pageIdex or shopId");
+        }
+        
+        return modelMap;
+    }
+
+    /**
+     * 为查询设置各种筛选条件的方法
+     * @param shopId
+     * @param productCategoryId
+     * @param productName
+     * @return
+     */
+    private Product compactProductCondition(long shopId,long productCategoryId,String productName){
+        Product productCondition=new Product();
+        Shop shop=new Shop();
+        shop.setShopId(shopId);
+        productCondition.setShop(shop);
+        productCondition.setShopId(shopId);
+        //如果有指定类别的就添加进去
+        if(productCategoryId!=-1L){
+            ProductCategory pc=new ProductCategory();
+            pc.setProductCategoryId(productCategoryId);
+            productCondition.setProductCategory(pc);
+        }
+        //若果有商品名称模糊查询则增加进去
+        if(productName!=null){
+            productCondition.setProductName(productName);
+        }
+        return productCondition;
+    }
+    
     /**
      * 增加商品的接口
      *

@@ -107,7 +107,7 @@
         select count(1) from tb_product
         <where>
             <if test="productCondition.shop!=null and productCondition.shop.shopId!=null">
-                and shop_id={productCondition.shop.shopId}
+                and shop_id=#{productCondition.shopId}
             </if>
             <if test="productCondition.productCategory!=null and productCondition.productCategory.productCategoryId!=null">
                 and product_category_id=#{productCondition.productCategoryId}
