@@ -11,6 +11,7 @@ import com.bayuedekui.exceptions.ProductCategoryOperationException;
 import com.bayuedekui.exceptions.ProductOperationException;
 import com.bayuedekui.service.ProductService;
 import com.bayuedekui.util.ImageUtil;
+import com.bayuedekui.util.PageCalculator;
 import com.bayuedekui.util.PathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,27 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductImgDao productImgDao;
 
+
+    /**
+     * 查寻商品(product)列表
+     * @param productCondition
+     * @param rowIndex
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public ProductExecution getProductList(Product productCondition, int pageIndex, int pageSize) {
+        //转化成数据库能理解的逻辑的行码,并调用dao层取回指定页码的商品列表
+        int rowIndex = PageCalculator.calculateRowIndex(pageIndex, pageSize);
+        List<Product> productList = productDao.queryProductList(productCondition, rowIndex, pageSize);
+        //基于同样的查询条件返回该条件下的商品总数
+        int count = productDao.queryProductCount(productCondition);
+
+        ProductExecution pe = new ProductExecution();
+        pe.setProductList(productList);
+        pe.setCount(count);
+        return null;
+    }
 
     /**
      * 调用dao层增加商品,包括上传商品图片

@@ -11,6 +11,14 @@ import java.util.List;
 public interface ProductService {
 
     /**
+     * 查询Product列表
+     * @param productCondition
+     * @param rowIndex
+     * @param pageSize
+     * @return
+     */
+    ProductExecution getProductList(Product productCondition,int pageIndex,int pageSize);
+    /**
      * 添加商品信息以及图片处理
      * @param product
      * @param thumbnail

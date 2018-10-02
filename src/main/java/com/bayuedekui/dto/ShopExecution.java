@@ -2,12 +2,14 @@ package com.bayuedekui.dto;
 
 import com.bayuedekui.entity.Shop;
 import com.bayuedekui.enums.ShopStateEnum;
+import lombok.Data;
 
 import java.util.List;
 
 /**
  * 操作店铺的一些状态
  */
+@Data
 public class ShopExecution {
     //结果状态
     private int state;
@@ -43,43 +45,5 @@ public class ShopExecution {
         this.shopList = shopList;
     }
 
-    public int getState() {
-        return state;
-    }
-
-    public void setState(int state) {
-        this.state = state;
-    }
-
-    public String getStateInfo() {
-        return stateInfo;
-    }
-
-    public void setStateInfo(String stateInfo) {
-        this.stateInfo = stateInfo;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public Shop getShop() {
-        return shop;
-    }
-
-    public void setShop(Shop shop) {
-        this.shop = shop;
-    }
-
-    public List<Shop> getShopList() {
-        return shopList;
-    }
-
-    public void setShopList(List<Shop> shopList) {
-        this.shopList = shopList;
-    }
+    
 }

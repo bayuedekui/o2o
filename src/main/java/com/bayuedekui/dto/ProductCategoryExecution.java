@@ -2,9 +2,11 @@ package com.bayuedekui.dto;
 
 import com.bayuedekui.entity.ProductCategory;
 import com.bayuedekui.enums.ProductCategoryStateEnum;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class ProductCategoryExecution {
     private int state;
 
@@ -47,19 +49,5 @@ public class ProductCategoryExecution {
         this.state=stateEnum.getState();
     }
 
-    public int getState() {
-        return state;
-    }
-
-    public String getStateInfo() {
-        return stateInfo;
-    }
-
-    public List<ProductCategory> getProductCategoryList() {
-        return productCategoryList;
-    }
-
-    public ProductCategory getProductCategory() {
-        return productCategory;
-    }
+   
 }

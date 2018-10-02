@@ -15,7 +15,7 @@ public interface ProductDao {
      * @return
      */
     List<Product> queryProductList(@Param("productCondition") Product productCondition,@Param("rowIndex")
-            int rowIndex,@Param("paegSize") int pageSize);
+            int rowIndex,@Param("pageSize") int pageSize);
 
     /**
      * 增加商品入库
@@ -38,6 +38,11 @@ public interface ProductDao {
      */
     Product queryProductById(long productId);
 
+    /**
+     * 查询共有多少个商品
+     * @return
+     */
+    int queryProductCount(@Param("productCondition") Product productCondition);
     /**
      * 根据传入的producId删除数据库中的商品记录
      * @param productId
