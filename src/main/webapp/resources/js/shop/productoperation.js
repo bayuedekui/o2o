@@ -40,13 +40,13 @@ $(function () {
                     var product = data.product;
                     $("#product-name").val(product.productName);
                     $("#product-desc").val(product.productDesc);
-                    $("#product-nowPrice").val(product.promotionPrice);
-                    $("#product-prePrice").val(product.normalPrice);
+                    $("#product-promotionPrice").val(product.promotionPrice);
+                    $("#product-normalPrice").val(product.normalPrice);
                     $("#priority").val(product.priority);
 
                     //获取原本商品类别以及该店铺所有类别列表
                     var optionHtml = null;
-                    var option = data.productCategoryList;
+                    var option = data.productCcategoryList;
                     var optionSelected = product.productCategory.productCategoryId;
                     //生成前端的HTML商品列表，并选择默认之前选择的商品分类
                     option.map(function (item, index) {

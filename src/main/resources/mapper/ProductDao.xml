@@ -67,6 +67,39 @@
         pm.priority desc
     </select>
     
+    <select id="queryProductList" resultType="com.bayuedekui.entity.Product">
+        select 
+        product_id,
+        product_name,
+        product.desc,
+        product_addr,
+        img_addr,
+        normal_price,
+        priority,
+        create_time,
+        last_edit_time,
+        enable_status,
+        product_category_id,
+        shop_id
+        from 
+        tb_product
+        <where>
+            <if test="productCondition.shop!=null and productCondition.shop.shopId!=null">
+                and shop_id=#{productCondition.shop.shopId}
+            </if>
+            <if test="productCondition.shopCategory!=null and productCondition.shopCategory.shopCategoryId!=null">
+                and product_category_id=#{productCondition.productCategory.productCategoryId}
+            </if>
+            /*写like语句的时候一般时ike '%%',在mybaties中应该写成like '%${name}%'而不是'%#{name}%'  #{name}时带单引号的,而'${name}'是不带单引号的*/
+            <if test="productCondition.productName!=null">
+                and product_name like '% ${productCondition.productName} %'
+            </if>
+            <if test="productCondition!=null and productCondition.enableStatus!=null">
+                and enable_status=#{productCondition.enableStatus}
+            </if>
+        </where>
+    </select>
+    
     <insert id="insertProduct" parameterType="com.bayuedekui.entity.Product"
             useGeneratedKeys="true" keyProperty="productId" keyColumn="product_id">
         insert into
@@ -88,10 +121,10 @@
             <if test="imgAddr!=null">img_addr=#{imgAddr},</if>
             <if test="normalPrice!=null">normal_price=#{normalPrice},</if>
             <if test="promotionPrice!=null">promotion_price=#{promotionPrice}</if>
-            <if test="priority!=null">priotiry=#{priority}</if>
+            <if test="priority!=null">priority=#{priority}</if>
             <if test="lastEditTime!=null">last_edit_time=#{lastEditTime}</if>
             <if test="enableStatus!=null">enable_status=#{enableStatus}</if>
-            <if test="productCategory!=null and productCategoryId!=null">product_category_id=#{productCategoryName}</if>
+            <if test="productCategory!=null and productCategoryId!=null">product_category_id=#{productCategory.productCategoryId}</if>
         </set>
         where
         product_id=#{productId}

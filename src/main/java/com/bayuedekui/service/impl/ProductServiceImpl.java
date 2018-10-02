@@ -88,6 +88,7 @@ public class ProductServiceImpl implements ProductService {
         return productDao.queryProductById(productId);
     }
 
+    
     /**
      * 对商品进行修改
      * @param product
@@ -98,16 +99,17 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     @Transactional
-    //1.若缩略图参数有值,则处理缩略图
-    //若原先存在缩略图,则先删除再添加新图,之后去缩略图相对路径并赋值给product
-    //2.若商品详情图有值,则对商品详情图做同样的操作
-    //3.若详情图和缩略图其中一个有变化,则将tb_product_img表中记录全部清除
-    //4.更新tb_product_img表记录
     public ProductExecution modifyProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgList) throws ProductCategoryOperationException {
+        //1.若缩略图参数有值,则处理缩略图
+        //若原先存在缩略图,则先删除再添加新图,之后去缩略图相对路径并赋值给product
+        //2.若商品详情图有值,则对商品详情图做同样的操作
+        //3.若详情图和缩略图其中一个有变化,则将tb_product_img表中记录全部清除
+        //4.更新tb_product_img表记录
+        
         //空值判断
         if(product!=null&&product.getShop()!=null&&product.getShop().getShopId()!=null){
             //给商品设置最后修改时间
-            product.setLastEditTime(new Date());
+//            product.setLastEditTime(new Date());  //为什么报设置值有问题的错误
             //如果商品缩略图不为空且原有缩略图不为空则删除原有图并添加
             if(thumbnail!=null){
                 //先获取一遍原来的信息,因为原来的存在图片地址
@@ -128,7 +130,7 @@ public class ProductServiceImpl implements ProductService {
                 int effectNum = productDao.updataProduct(product);
                 if(effectNum<=0){
                     throw new ProductOperationException("更新商品信息失败");
-                }
+            }
                 return new ProductExecution(ProductStateEnum.SUCCESS,product);
             }catch(Exception e){
                 throw new ProductOperationException("更新商品信息失败"+e.getMessage());

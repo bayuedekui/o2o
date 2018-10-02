@@ -21,8 +21,8 @@ public class Product {
     //0.下架,1.在前端显示系统显示
     private Integer enableStatus;
     private Integer point;
-    private int productCategoryId;
-    private int shopId;
+    private Long productCategoryId;
+    private Long shopId;
 
     private List<ProductImg> productImgList;
     private ProductCategory productCategory;
@@ -52,19 +52,19 @@ public class Product {
         this.shop = shop;
     }
 
-    public int getProductCategoryId() {
+    public Long getProductCategoryId() {
         return productCategoryId;
     }
 
-    public void setProductCategoryId(int productCategoryId) {
+    public void setProductCategoryId(Long productCategoryId) {
         this.productCategoryId = productCategoryId;
     }
 
-    public int getShopId() {
+    public Long getShopId() {
         return shopId;
     }
 
-    public void setShopId(int shopId) {
+    public void setShopId(Long shopId) {
         this.shopId = shopId;
     }
 

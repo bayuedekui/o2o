@@ -31,8 +31,8 @@ public class ProductDaoTest extends BaseTest {
         product1.setProductDesc("测试商品描述1");
         product1.setPriority(1);
         product1.setEnableStatus(1);
-        product1.setProductCategoryId(1);
-        product1.setShopId(1);
+        product1.setProductCategoryId(1L);
+        product1.setShopId(1L);
 
         Product product2=new Product();
         product2.setProductName("测试商品2");
@@ -41,8 +41,8 @@ public class ProductDaoTest extends BaseTest {
         product2.setProductDesc("测试商品描述2");
         product2.setPriority(1);
         product2.setEnableStatus(1);
-        product2.setProductCategoryId(1);
-        product2.setShopId(1);
+        product2.setProductCategoryId(1L);
+        product2.setShopId(1L);
 
         int effectNum1=productDao.insertProduct(product1);
         int effectNum2=productDao.insertProduct(product2);
@@ -96,8 +96,8 @@ public class ProductDaoTest extends BaseTest {
         
         shop.setShopId(1L);
         product.setShop(shop);
-        product.setShopId(1);
-        product.setProductCategoryId(1);
+        product.setShopId(1L);
+        product.setProductCategoryId(1L);
         product.setProductId(2L);
         product.setProductName("第二个产品");
         int effectNum=productDao.updataProduct(product);
