@@ -6,7 +6,7 @@
 
 .row-product * {
     white-space: nowrap;
-    overflow: scroll;
+    overflow: none;
 }
 
 .row-product:last-child {
@@ -15,7 +15,7 @@
 
 .product-name {
     white-space: nowrap;
-    overflow-x: scroll;
+    overflow-x: none;
 }
 
 .product-wrap a {

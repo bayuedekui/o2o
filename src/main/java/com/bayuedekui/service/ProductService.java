@@ -13,8 +13,9 @@ public interface ProductService {
     /**
      * 查询Product列表
      * @param productCondition
-     * @param rowIndex
      * @param pageSize
+     * @param productCondition
+     * @param pageIndex
      * @return
      */
     ProductExecution getProductList(Product productCondition,int pageIndex,int pageSize);

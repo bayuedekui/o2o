@@ -122,4 +122,10 @@ public class ProductDaoTest extends BaseTest {
 //        System.out.print("总共的商品数为:" + i);
     }
 
+    @Test
+    public void testUpdateProductCategoryToNull(){
+        int effectNum=productDao.updateProductCategoryToNull(3L);
+        Assert.assertEquals(1,effectNum);
+        
+    }
 }

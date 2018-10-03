@@ -257,20 +257,21 @@ public class ProductManagementController {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
         
         //若请求中存在文件流,则取出相关的文件(包括详情图二号缩略图)
-        try {
-            if (commonsMultipartResolver.isMultipart(request)) {
-                handleImage((MultipartHttpServletRequest) request, productImgList);
-            }else{
+        if(!statusChange) {
+            try {
+                if (commonsMultipartResolver.isMultipart(request)) {
+                    handleImage((MultipartHttpServletRequest) request, productImgList);
+                } else {
+                    modelMap.put("success", false);
+                    modelMap.put("errMsg", "上传图片不能为空");
+                    return modelMap;
+                }
+            } catch (Exception e) {
                 modelMap.put("success", false);
-                modelMap.put("errMsg", "上传图片不能为空");
+                modelMap.put("errMsg", e.toString());
                 return modelMap;
             }
-        } catch (Exception e) {
-            modelMap.put("success",false);
-            modelMap.put("errMsg", e.toString());
-            return modelMap;
         }
-        
         //请求前台传入的商品信息
         try {
             String productStr = HttpServletRequestUtil.getString(request,"productStr");
