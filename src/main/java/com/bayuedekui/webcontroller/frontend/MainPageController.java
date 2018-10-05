@@ -1,6 +1,5 @@
-package com.bayuedekui.webcontroller.fronted;
+package com.bayuedekui.webcontroller.frontend;
 
-import com.bayuedekui.dao.ShopCategoryDao;
 import com.bayuedekui.entity.HeadLine;
 import com.bayuedekui.entity.ShopCategory;
 import com.bayuedekui.service.HeadLineService;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/fronted")
+@RequestMapping("/frontend")
 public class MainPageController {
     @Autowired
     private ShopCategoryService shopCategoryService;

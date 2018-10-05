@@ -19,7 +19,7 @@ drop table if exists `tb_head_line`;
 create table `tb_head_line`(
 	`line_id` int(100) not null auto_increment,
 	`line_name` varchar(1000) default null,
-	`line-link` varchar(2000) default null,
+	`line_link` varchar(2000) default null,
 	`line_img` varchar(2000) default null,
 	`priority` int(2) default null,
 	`enable_status` int(2) not null default '0',
@@ -29,7 +29,6 @@ create table `tb_head_line`(
 )engine=InnoDB auto_increment=16 default charset=utf8;
 
 insert into `tb_head_line` values(1,'测试head_line',null,null,4,1,null,null);
-alter table `tb_head_line` change `line-link` `line_link` varchar(2000);
 /*创建本地用户表*/
 drop table if exists `tb_local_auth`;
 create table `tb_local_auth`(

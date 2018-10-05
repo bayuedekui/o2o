@@ -58,7 +58,7 @@ $(function () {
             changeItemStatus(e.currentTarget.dataset.id,e.currentTarget.dataset.status);
         }else if(target.hasClass('preview')){
             //如果有class=preview则去前台展示系统该商品详情页预览商品情况
-            window.location.href='/o2o/fronted/prodcutdetail?productId='+e.currentTarget.dataset.id;
+            window.location.href='/o2o/frontend/prodcutdetail?productId='+e.currentTarget.dataset.id;
         }
         
     });

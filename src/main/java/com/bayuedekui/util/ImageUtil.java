@@ -49,7 +49,7 @@ public class ImageUtil {
             throw new RuntimeException("创建缩略图失败："+e.getMessage());
         }
         
-        return PathUtil.getImgBasePath()+relativeAddr;
+        return relativeAddr;
     }
     
     /**
@@ -75,7 +75,7 @@ public class ImageUtil {
            throw new RuntimeException("创建缩略图失败："+e.toString());
         } 
         
-        return PathUtil.getImgBasePath()+realtiveAddr;
+        return realtiveAddr;
     }
 
     /**
