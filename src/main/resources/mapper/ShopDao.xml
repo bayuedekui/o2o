@@ -55,6 +55,10 @@
             <if test="shopCondition.shopCategory != null and shopCondition.shopCategory.shopCategoryId != null">
                 and s.shop_category_id=#{shopCondition.shopCategory.shopCategoryId}
             </if>
+            <if test="shopCondition.shopCategory != null and shopCondition.shopCategory.parent!=null and
+                        shopCondition.shopCategory.parent.shopCategoryId!=null">
+                and s.shop_category_id in (select shop_category_id from tb_shop_category where parent_id = #{shopCondition.shopCategory.parent.shopCategoryId})
+            </if>
             <if test="shopCondition.area != null and shopCategory.area.areaId != null">
                 and s.area_id=#{shopCondition.area.areaId}
             </if>
@@ -81,12 +85,16 @@
         select
         count(1)
         from
-        tb_shop s,
+        tb_shop s, 
         tb_shop_category sc,
         tb_area a
         <where>
             <if test="shopCondition.shopCategory!=null and shopCondition.shopCategory.shopCategoryId!=null">
                 and s.shop_category_id=#{shopCondition.shopCategory.shopCategoryId}
+            </if>
+            <if test="shopCondition.shopCategory!=null and shopCondition.shopCategory.parent!=null 
+                    and shopCondition.shopCategory.parent.shopCategoryId!=null">
+                and s.shop_category_id in(select shop_category_id from tb_shop_category where parent_id=#{shopCondition.shopCategory.parent.shopCategoryId})
             </if>
             <if test="shopCondition.area!=null and shopCondition.area.areaId!=null">
                 and a.area_id=#{shopCondition.area.areaId}
