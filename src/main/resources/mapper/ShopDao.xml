@@ -85,7 +85,7 @@
         select
         count(1)
         from
-        tb_shop s, 
+        tb_shop s,
         tb_shop_category sc,
         tb_area a
         <where>
