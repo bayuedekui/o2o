@@ -112,6 +112,7 @@ public class ShopDaoTest extends BaseTest {
         parentCategory.setShopCategoryId(7L);
         childCategory.setParent(parentCategory);
         shopCondition.setShopCategory(childCategory);
+        shopCondition.setShopName("小黄人");
         List<Shop> shopList = shopDao.queryShopList(shopCondition, 0, 10);
         int count = shopDao.queryShopCount(shopCondition);
         System.out.println("查出来的商品列表数:"+shopList.size());

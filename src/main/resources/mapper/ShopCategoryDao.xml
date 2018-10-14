@@ -22,7 +22,7 @@
             <if test="shopCategoryCondition != null">
                 and parent_id is not null
             </if>
-            <if test="shopCategoryCondition != null and shopCategoryCondition.parent!=null and shopCategoryCondition.parentId != null">
+            <if test="shopCategoryCondition != null and shopCategoryCondition.parent!=null and shopCategoryCondition.parent.shopCategoryId != null">
                 and parent_id=#{shopCategoryCondition.parent.shopCategoryId}
             </if>
         </where>
