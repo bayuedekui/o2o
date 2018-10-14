@@ -136,4 +136,74 @@ $(function () {
         var shopId=e.currentTarget.dataset.shopId;
         window.location.href='/o2o/frontend/shopdetail?shopId='+shopId;
     });
+    
+    
+    //选择了新的店铺类比之后,重置页码,清空原先的的店铺列表,按照新的类别去查询
+    $('#shoplist-search-div').on('click','.button',function (e) {
+        //如果传过来的是一个父类下的子类(因为存在了parentId,所以必是某个以及父类下的子类)
+        if(parentId){
+            shopCategoryId=e.target.dataset.categoryId;
+            //若之前已经选定了别的category,则移除其选定效果,改成新的
+            if($(e.target).hasClass('button-fill')){
+                $(e.target).removeClass('button-fill');
+                shopCategoryId='';
+            }else{
+                $(e.target).addClass('button-fill').siblings().removeClass('button-fill');
+            }
+            
+            //由于查询条件改变,清空店铺列表在进行查询
+            $('.list-div').empty();
+            //重置页码
+            pageNum=1;
+            addItems(pageSize, pageNum);
+        }else{  //如果传过来的父类为空,那就按照父类查询,查询parentId为空的一级分类
+            parentId=e.target.dataset.categoryId;
+            if($(e.target).hasClass('button-fill')){
+                $(e.target).removeClass('button-fill');
+                parentId='';
+            }else{
+                $(e.target).addClass('button-fill').siblings().removeClass('button-fill');
+            }
+            
+            //由于查询条件改变,清空店铺列表再进行查询
+            $('.list-div').empty();
+            
+            //重置页码
+            pageNum=1;
+            addItems(pageSize, pageNum);
+        }
+    });
+    
+    //查询新的名字时,重置页码,清空原先的店铺列表,按照新的名字重新查询
+    $('#search').on('input',function(e){
+        shopName=e.target.value;
+        $('.shop-list').empty();
+        pageNum=1;
+        addItems(pageSize, pageNum);
+    });
+    
+    //区域信息发生变化时,清空原先结果列表,重置页码,按照新的区域去查询
+    $('#area-search').on('change',function(){
+        areaId=$('#area-search').val();
+        $('.shop-list').empty();
+        pageNum=1;
+        addItems(pageSize, pageNum);
+    });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 });
