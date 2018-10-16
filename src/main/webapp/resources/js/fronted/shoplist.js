@@ -174,7 +174,7 @@ $(function () {
         }
     });
     
-    //查询新的名字时,重置页码,清空原先的店铺列表,按照新的名字重新查询
+    //查询新的店铺名字时,重置页码,清空原先的店铺列表,按照新的名字重新查询
     $('#search').on('input',function(e){
         shopName=e.target.value;
         $('.shop-list').empty();
@@ -190,10 +190,14 @@ $(function () {
         addItems(pageSize, pageNum);
     });
     
+    //点击我的弹出侧边栏
+    $('#me').on('click',function(){
+        $.openPanel('#panel-right-demo');
+    });
     
     
-    
-    
+    //初始化页面
+    $.init();
     
     
     
