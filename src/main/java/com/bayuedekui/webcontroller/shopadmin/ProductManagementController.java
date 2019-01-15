@@ -53,7 +53,7 @@ public class ProductManagementController {
         int pageIndex = HttpServletRequestUtil.getInt(request, "pageIndex");
         int pageSize = HttpServletRequestUtil.getInt(request, "pageSize");
         
-        //从session获取店铺信息,主要获取shopId
+        //从session获取店铺信息,主要获取shopId(老是出现session拿不到的情形，暂时还没解决,原来是tomcate的问题重启下就好了)
         Shop currentShop = (Shop) request.getSession().getAttribute("currentShop");
         
         //空值判断
@@ -219,7 +219,7 @@ public class ProductManagementController {
             //获取该店铺下所有商品类别列表        
             List<ProductCategory> pcList = productCategoryService.getProductCategoryList(productId);
             modelMap.put("product", product);
-            modelMap.put("productCcategoryList", pcList);
+            modelMap.put("productCategoryList", pcList);
             modelMap.put("success", true);
         } else {
             modelMap.put("success", false);

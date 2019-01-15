@@ -20,9 +20,5 @@ public class ProductImg {
 
     private Product product;
 
-    public Product getProduct() {
-        return product;
-    }
-
    
 }

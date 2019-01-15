@@ -45,7 +45,7 @@ $(function () {
                     $("#priority").val(product.priority);
 
                     //获取原本商品类别以及该店铺所有类别列表
-                    var optionHtml = null;
+                    var optionHtml = '';
                     var option = data.productCcategoryList;
                     var optionSelected = product.productCategory.productCategoryId;
                     //生成前端的HTML商品列表，并选择默认之前选择的商品分类

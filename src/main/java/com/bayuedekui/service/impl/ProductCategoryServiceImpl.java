@@ -66,7 +66,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     @Override
     @Transactional
     public ProductCategoryExecution deleteProductCategory(Long productCategoryId, Long shopId) throws ProductCategoryOperationException {
-        //TODO将商品下的该商品的类别id设为空,目的是为了接触tb_product中的商品和tb_product_category的类别关联
+        //TODO将商品下的该商品的类别id设为空,目的是为了解决tb_product中的商品和tb_product_category的类别关联
         try {
             int effecrNum = productDao.updateProductCategoryToNull(productCategoryId);
             if(effecrNum<0){

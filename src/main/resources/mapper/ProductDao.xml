@@ -28,7 +28,7 @@
             <result column="detail_img" property="imgAddr"/>
             <result column="img_desc" property="imgDesc"/>
             <result column="priority" property="priority"/>
-            <result column="create_time" property="CreateTime"/>
+            <result column="create_time" property="createTime"/>
             <result column="product_id" property="productId"/>
         </collection>
     </resultMap>
@@ -92,7 +92,7 @@
                 and product_category_id=#{productCondition.productCategory.productCategoryId}
             </if>
             <if test="productCondition.productName!=null">
-                and product_name like '% ${productCondition.productName} %'
+                and product_name like '%${productCondition.productName}%'
             </if>
             <if test="productCondition!=null and productCondition.enableStatus!=null">
                 and enable_status=#{productCondition.enableStatus}
@@ -104,7 +104,7 @@
     </select>
     
     <select id="queryProductCount" resultType="int">
-        select count(1) from tb_product
+        select count(1) from tb_product 
         <where>
             <if test="productCondition.shop!=null and productCondition.shop.shopId!=null">
                 and shop_id=#{productCondition.shopId}

@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     /**
      * 查寻商品(product)列表
      * @param productCondition
-     * @param rowIndex
+     * @param pageIndex
      * @param pageSize
      * @return
      */
