@@ -3,7 +3,7 @@ $(function () {
     //分页允许返回的最大条数,超过此数目则禁止访问后台
     var maxItems = 999;
     //一页返回的最大条数
-    var pageSize = 10;
+    var pageSize = 3;
     //获取店铺列表的URL
     var listUrl = "/o2o/frontend/listshops";
     //获取店铺类别以及区域列表的url
@@ -20,7 +20,7 @@ $(function () {
     //在前台渲染出店铺类别列表以及区域列表以供搜索
     getSearchDivData();
 
-    //预先加载10条店铺信息
+    //预先加载3条店铺信息
     addItems(pageSize, pageNum);
 
 
@@ -29,8 +29,7 @@ $(function () {
      */
     function getSearchDivData() {
         //如果传入了parentId,就擦查出此一级类别下的所有二级类别
-        var url = searchDivUrl + "?" + "parentId="
-        parentId;
+        var url = searchDivUrl + "?" + "parentId="+parentId;
         $.ajax({
             url: url,
             type: 'GET',
@@ -42,7 +41,7 @@ $(function () {
                     html += '<a href="#" class="button" data-category-id="">全部类别</a>';
                     //遍历shopCategoryList店铺类别列表,拼接出a标签
                     shopCategoryList.map(function (item, index) {
-                        html += '<a href="#" class="button" data-category-id="' + item.shopCategoryid + '">' + item.shopCategoryName + '</a>';
+                        html += '<a href="#" class="button" data-category-id="' + item.shopCategoryId + '">' + item.shopCategoryName + '</a>';
                     });
                     //将拼接好的类别标签嵌入前台的html组件里
                     $("#shoplist-search-div").html(html);
@@ -63,11 +62,11 @@ $(function () {
     <!--getSearchDivData方法结束-->
 
     /**
-     * w为页面
+     * 根据查询的条件展现查询出来的结果
      */
     function addItems(pageSize, pageIndex) {
         //拼接出查询的url,赋空值就默认去掉条件的限制,有值就代表按照这个条件去去查询
-        var url = listUrl + '?pageIndex=' + pageIndex + '&pageSize=' + pageSize + '&parentId' + parentId +
+        var url = listUrl + '?pageIndex=' + pageIndex + '&pageSize=' + pageSize + '&parentId=' + parentId +
             '&areaId=' + areaId + '&shopCategoryId=' + shopCategoryId + '&shopName=' + shopName;
         //设定加载符,若还在后台取数据则不能再次访问后台,避免重复加载
         loading = true;
@@ -124,7 +123,10 @@ $(function () {
         });
     }<!--addItem方法结束-->
     
-    //下滑屏幕自动进行分页搜索(自己对这块有点疑问)
+    //预先加载6条
+    addItems(pageSize, pageNum);
+    
+    //下滑屏幕自动进行分页搜索(自己对这块有点疑问,问题？下滑的时候没触发)
     $(document).on('infinite','.infinite-scroll-bottom',function () {
         if(loading)
             return;
@@ -138,7 +140,7 @@ $(function () {
     });
     
     
-    //选择了新的店铺类比之后,重置页码,清空原先的的店铺列表,按照新的类别去查询
+    //选择了新的店铺类别之后,重置页码,清空原先的的店铺列表,按照新的类别去查询
     $('#shoplist-search-div').on('click','.button',function (e) {
         //如果传过来的是一个父类下的子类(因为存在了parentId,所以必是某个以及父类下的子类)
         if(parentId){
