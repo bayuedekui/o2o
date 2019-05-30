@@ -23,6 +23,12 @@ public enum ShopStateEnum {
         return stateInfo;
     }
     
+    /**
+     * @description: 依据传入的index返回对应的enum值
+     * @author: zhengkui
+     * @date: 10:32 2019-5-30
+     * @param: [index]
+     */
     public static  ShopStateEnum stateOf(int index){
         for(ShopStateEnum state :values()){
             if(state.getState()==index){
