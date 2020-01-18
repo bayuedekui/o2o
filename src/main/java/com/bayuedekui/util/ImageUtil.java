@@ -83,7 +83,7 @@ public class ImageUtil {
      * @return
      */
     public static String  getRandomFileName(){
-        //真是文件的名字喂年月日十分秒+五位随机数
+        //真是文件的名字为年月日十分秒+五位随机数
         int randomNum=random.nextInt(89999)+10000;
          String realFileName=simpleDateFormat.format(new Date());   
            return realFileName+randomNum; 

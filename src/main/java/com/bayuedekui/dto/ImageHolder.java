@@ -4,7 +4,7 @@ import lombok.Data;
 
 import java.io.InputStream;
 
-@Data
+@Data   
 public class ImageHolder {
     private String imageName;
     private InputStream image;
